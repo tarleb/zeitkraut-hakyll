@@ -18,6 +18,10 @@ main =
         route   idRoute
         compile copyFileCompiler
 
+    match "img/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     -- base context and template
     let baseCtx   = defaultContext
     let applyBase = loadAndApplyTemplate "templates/base.html" baseCtx

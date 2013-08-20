@@ -1,0 +1,16 @@
+* {
+    stroke: none;
+}
+.lupe .lens {
+    stroke: gray;
+}
+.lupe .handle {
+    fill: gray;
+}
+.hours, .minutes {
+    fill: gray;
+}
+.seconds {
+    fill: maroon;
+    opacity: 50;
+}

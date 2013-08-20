@@ -39,6 +39,12 @@ a:hover {
     max-width: 75ex;
 }
 
+.logo {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+}
+
 #content p {
     text-align: justify;
 }

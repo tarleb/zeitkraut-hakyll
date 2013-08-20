@@ -1,31 +1,18 @@
 html {
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    width: 100%;
+    /* little hack to make sure the page is big enough to scroll past most of the
+     * header image */
+    min-height: calc(100% + 500px);
 }
 
 body {
     background-color: #fdf6e3;
     color: #657b83;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: medium;
-    margin: 0px;
-    min-height: calc(100% + 360px);
-    padding: 0px;
-    width: 100%;
-}
-
-#header {
-    position: relative;
-    text-align: center;
+    padding-top: 50px;
 }
 
 h1 {
     color: #586e75;
-    font-size: 350%;
-    font-weight: bold;
-    line-height: 2em;
 }
 
 h2, h3, h4, h5, h6 {
@@ -33,39 +20,43 @@ h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #cb4b16;
-    text-decoration: none;
+    color: #268bd2;
 }
 a:hover {
-    background-color: #eee8d5;
+    color: #2aa198;
 }
 
-#content {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-
-    font-size: medium;
-    font-weight: normal;
+.container {
     max-width: 75ex;
 }
 
-div#navigation {
-    position: fixed;
+#content p {
+    text-align: justify;
+}
+
+/* Header and Navigation Toolbar */
+#header {
+    margin-bottom: 26px;
+}
+
+#navbar {
+    background-color: #a57705;
+}
+
+#navbar a {
+    color: #fdf6e3;
+}
+
+#headerImage {
+    position: relative;
     top: 0px;
     left: 0px;
-    background-color: #a57705;
-    text-align: center;
-    width: 100%;
 }
 
 a#post {
     position: absolute;
-    top: 360px;
+    top: 70%;
+    top: calc(100% - 150px);
 }
-
-div#navigation a {
-    color: #fdf6e3;
-    margin: 8px 10px 8px 10px;
-    text-decoration: none;
-}
+/**
+ */

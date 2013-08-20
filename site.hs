@@ -77,6 +77,7 @@ main =
 defaultPostCtx :: Context String
 defaultPostCtx = mconcat
   [ dateField "date" "%B %e, %Y"
+  , dateField "datetime" "%Y-%m-%d"
   , defaultContext
   ]
 

@@ -3,25 +3,35 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>$title$ &ndash; Blog</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/default.css" />
   </head>
   <body>
     <div id="header">
-      <div id="navigation">
-        <a href="/index.html#post">Home</a>
-        <a href="/posts.html#post">All posts</a>
-        <a href="/about.html#post">About</a>
-        <a href="/imprint.html#post">Imprint</a>
-      </div>
+
+      <nav id="navbar" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            ZeitLinse
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="/index.html#post">Home</a></li>
+            <li><a href="/posts.html#post">All posts</a></li>
+            <li><a href="/about.html#post">About</a></li>
+            <li><a href="/imprint.html#post">Imprint</a></li>
+          </ul>
+        </div>
+      </nav>
+
       <div id="headerImage">
         <!-- jump marker, so people don't have to look at the whole header
         image all the time -->
         <a id="post" />
-        <img src="/img/header.jpg" style="width: 100%" />
+        <img src="/img/header.jpg" class="img-responsive" alt="" />
       </div>
     </div>
 
-    <div id="content">
+    <div id="content" class="container">
       $body$
     </div>
   </body>

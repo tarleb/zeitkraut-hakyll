@@ -26,7 +26,16 @@ a:hover {
     color: #2aa198;
 }
 
-.container {
+.yq-footer {
+    background-color: #a57705;
+    border-top: 1px dotted #657b83;
+    color: #fdf6e3;
+    margin-top: 100px;
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+#main {
     max-width: 75ex;
 }
 
@@ -41,6 +50,10 @@ a:hover {
 
 #navbar {
     background-color: #a57705;
+}
+
+.navbar-brand {
+    color: #fdf6e3;
 }
 
 #navbar a {

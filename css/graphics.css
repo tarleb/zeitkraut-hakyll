@@ -2,13 +2,13 @@
     stroke: none;
 }
 .lupe .lens {
-    stroke: gray;
+    stroke: #fdf6e3;
 }
 .lupe .handle {
-    fill: gray;
+    fill: #fdf6e3;
 }
 .hours, .minutes {
-    fill: gray;
+    fill: #fdf6e3;
 }
 .seconds {
     fill: maroon;

@@ -1,7 +1,10 @@
 html {
     /* little hack to make sure the page is big enough to scroll past most of the
      * header image */
-    min-height: calc(100% + 500px);
+    height: 125%;
+}
+body {
+    height: 100%;
 }
 
 body {
@@ -26,17 +29,19 @@ a:hover {
     color: #2aa198;
 }
 
-.yq-footer {
+footer.yq-footer {
     background-color: #586e75;
     border-top: 1px dotted #657b83;
+    clear: both;
     color: #fdf6e3;
     margin-top: 100px;
     padding-top: 30px;
     padding-bottom: 40px;
+    position: relative;
 }
 
-#main {
-    max-width: 75ex;
+#wrap {
+    min-height: 100%;
 }
 
 .logo {

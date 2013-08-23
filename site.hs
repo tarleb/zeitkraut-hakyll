@@ -18,6 +18,10 @@ main =
         route   idRoute
         compile copyFileCompiler
 
+    match "favicon.ico" $ do
+      route idRoute
+      compile copyFileCompiler
+
     match "img/*" $ do
         route   idRoute
         compile copyFileCompiler

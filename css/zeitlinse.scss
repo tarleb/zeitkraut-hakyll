@@ -90,6 +90,17 @@ footer.yq-footer {
 footer a, footer a:hover {
   color: #fdf6e3;
 }
+
+/* Misc
+ * **** */
+/* Avoiding Spam */
+.moltkeplatzMail:before {
+  content: attr(data-user);
+}
+.moltkeplatzMail:after {
+  content: attr(data-domain);
+}
+
 /**
  * Local Variables:
  * css-indent-offset: 2

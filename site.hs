@@ -32,6 +32,10 @@ main =
         route   idRoute
         compile copyFileCompiler
 
+    match "scripts/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     -- base context and template
     let baseCtx   = defaultContext
     let applyBase = loadAndApplyTemplate "templates/base.html" baseCtx

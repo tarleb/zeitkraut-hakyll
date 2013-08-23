@@ -14,9 +14,15 @@ main =
     match "templates/*" $ compile templateCompiler
 
     -- copy static files
-    match "css/*" $ do
+    match "css/*.css" $ do
         route   idRoute
-        compile copyFileCompiler
+        compile compressCssCompiler
+
+    match "css/zeitlinse.scss" $ do
+        route $ setExtension "css"
+        compile $ getResourceString >>=
+           withItemBody (unixFilter "sass" ["-s", "--scss"]) >>=
+           return . fmap compressCss
 
     match "favicon.ico" $ do
       route idRoute

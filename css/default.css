@@ -29,17 +29,6 @@ a:hover {
     color: #2aa198;
 }
 
-footer.yq-footer {
-    background-color: #586e75;
-    border-top: 1px dotted #657b83;
-    clear: both;
-    color: #fdf6e3;
-    margin-top: 100px;
-    padding-top: 30px;
-    padding-bottom: 40px;
-    position: relative;
-}
-
 #wrap {
     min-height: 100%;
 }
@@ -83,6 +72,22 @@ a#post {
     position: absolute;
     top: 70%;
     top: calc(100% - 150px);
+}
+
+/* Footer and License */
+footer.yq-footer {
+    background-color: #586e75;
+    border-top: 1px dotted #657b83;
+    clear: both;
+    color: #fdf6e3;
+    margin-top: 100px;
+    padding-top: 30px;
+    padding-bottom: 40px;
+    position: relative;
+}
+
+footer a {
+    color: #fdf6e3;
 }
 /**
  */

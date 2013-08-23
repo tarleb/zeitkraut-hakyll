@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width initial-scale=1.0" />
     <title>$title$ &ndash; Blog</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/img/zeitlinse.png" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/default.css" />
   </head>
   <body>
@@ -16,20 +16,26 @@
       <nav id="navbar" class="navbar navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <span class="navbar-brand">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-exl-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+            </button>
               <!-- ZeitLinse logo -->
+            <span class="navbar-brand">
               <object type="image/svg+xml" data="/img/zeitlinse.svg" class="logo">
                 ZeitLinse Logo
               </object>
               ZeitLinse
             </span>
           </div>
-          <ul class="nav navbar-nav">
-            <li><a href="/index.html#post">Home</a></li>
-            <li><a href="/posts.html#post">All posts</a></li>
-            <li><a href="/about.html#post">About</a></li>
-            <li><a href="/imprint.html#post">Imprint</a></li>
-          </ul>
+          <div class="collapse navbar-collapse navbar-exl-collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="/index.html#post">Home</a></li>
+              <li><a href="/posts.html#post">All posts</a></li>
+              <li><a href="/about.html#post">About</a></li>
+              <li><a href="/imprint.html#post">Imprint</a></li>
+            </ul>
+          </div>
         </div>
       </nav>
 

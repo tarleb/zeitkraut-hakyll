@@ -45,8 +45,10 @@ footer.yq-footer {
 }
 
 .logo {
-    width: 13px;
-    height: 13px;
+    width: 0.8em;
+    height: 0.8em;
+    position: relative;
+    top: 0.0em;
     display: inline-block;
 }
 

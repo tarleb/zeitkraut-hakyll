@@ -63,16 +63,33 @@ a:hover {
   color: #fdf6e3;
 }
 
-#headerImage {
-  position: relative;
-  top: 0px;
-  left: 0px;
+#headerImg {
+  border: 0px;
+  width: 100%;
 }
 
-a#post {
-  position: absolute;
-  top: 70%;
-  top: calc(100% - 150px);
+#headerImageContainer {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+@media screen and (min-device-width: 800px) {
+  #headerImg {
+    opacity: 0;
+  }
+  #headerImageContainer {
+    background-image: url("/img/header_800x259.jpg");
+  }
+}
+@media screen and (min-device-width: 1028px) {
+  #headerImageContainer {
+    background-image: url("/img/header_1280x415.jpg");
+  }
+}
+@media screen and (min-device-width: 1600px) {
+  #headerImageContainer {
+    background-image: url("/img/header.jpg");
+  }
 }
 
 /* Footer and License */

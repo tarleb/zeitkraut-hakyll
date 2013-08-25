@@ -110,10 +110,13 @@ footer a, footer a:hover {
 /* Misc
  * **** */
 /* Avoiding Spam */
-.obfuscated-mail-address:before {
+.obfuscated-mail-address::before {
   content: attr(data-user);
 }
-.obfuscated-mail-address:after {
+.obfuscated-mail-address > * {
+  display: none;
+}
+.obfuscated-mail-address::after {
   content: attr(data-domain);
 }
 

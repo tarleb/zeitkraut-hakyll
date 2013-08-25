@@ -11,6 +11,6 @@ title: Imprint
 </address>
 
 Tel: phone number  
-Mail: <span data-user="john.doe"
-            class="moltkeplatzMail"
-            data-domain="example.com">&#000000064;</span>
+Mail: <span data-domain="example.com" class="obfuscated-mail-address"
+            data-user="john.doe">&#0064;<span>obfuscated mail
+            address</span></span>

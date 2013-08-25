@@ -110,10 +110,10 @@ footer a, footer a:hover {
 /* Misc
  * **** */
 /* Avoiding Spam */
-.moltkeplatzMail:before {
+.obfuscated-mail-address:before {
   content: attr(data-user);
 }
-.moltkeplatzMail:after {
+.obfuscated-mail-address:after {
   content: attr(data-domain);
 }
 

@@ -24,7 +24,7 @@ main =
            withItemBody (unixFilter "sass" ["-s", "--scss"]) >>=
            return . fmap compressCss
 
-    match "favicon.ico" $ do
+    match ("favicon.ico" .||. "robots.txt") $ do
       route idRoute
       compile copyFileCompiler
 

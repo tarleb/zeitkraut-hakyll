@@ -1,4 +1,38 @@
-/* -*- css -*- */
+/* -*- css -*-
+ * Color Scheme:
+ * Base color:          2C7184  304951  04303C  86CEE3  B5D9E3
+ * triad color 1:       D4A842  82714B  614607  F5D68D  F5E6C2
+ * triad color 2:       D45642  82524B  611307  F59B8D  F5C9C2
+ * analogic 1:          316189	334555	052540	8DBEE7	BCD3E7
+ * analogic 2:          298579	2F524D	053E36	86E6D9	B8E6E0
+ */
+
+$navbarColor: #ddd;
+$navbarBrandColor: #ffffff;
+$navbarBackgroundColor: #04303c;
+$navbarBorderColor: #bababa;
+$navbarLinkHover: #304a52;
+
+$headline1: #04303c;
+$headline2: #304951;
+
+$link: #2c7184;
+$linkBackground: #fafafa;
+$linkHover: #82714b;
+
+
+$text: #2d2d2d;
+
+$codeColor: #611307;
+$codeBackground: #fef6f9;
+$headerCodeColor: #611307;
+$headerCodeBackgroundColor: white;
+
+$footerBorder: #bababa;
+$footerBackground: #858585;
+$footerColor: #ddd;
+$footerLink:  #fff;
+
 html {
   height: 100%;
 }
@@ -8,25 +42,44 @@ body {
 }
 
 body {
-  background-color: #fdf6e3;
-  color: #657b83;
+  color: $text;
   font-family: Helvetica, Arial, sans-serif;
   padding-top: 50px;
 }
 
-h1 {
-  color: #586e75;
+@mixin headerCode {
+  code {
+    color: $headerCodeColor;
+    background-color: $headerCodeBackgroundColor;
+  }
 }
 
+
+h1 {
+  color: $headline1;
+  @include headerCode;
+}
 h2, h3, h4, h5, h6 {
-  color: #657b83;
+  color: $headline2;
+  @include headerCode;
+}
+
+date {
+  color: $headline2;
+}
+
+code {
+  color: $codeColor;
+  background-color: $codeBackground;
 }
 
 a {
-  color: #268bd2;
+  color: $link;
+  background-color: $linkBackground;
 }
 a:hover {
-  color: #2aa198;
+  color: $linkHover;
+  text-decoration: none;
 }
 
 #wrap {
@@ -51,15 +104,32 @@ a:hover {
 }
 
 #navbar {
-  background-color: #b58900;
-}
+  color: $navbarColor;
+  background-color: $navbarBackgroundColor;
+  border-color: $navbarBorderColor;
 
-.navbar-brand {
-  color: #fdf6e3;
-}
+  a {
+    color: $navbarColor;
+    background-color: inherit;
+  }
+  a:hover {
+    color: $navbarColor;
+    background-color: $navbarLinkHover;
+  }
 
-#navbar a {
-  color: #fdf6e3;
+  $paddingLeftRight: 15px;
+  a .navbar-brand {
+    color: $navbarBrandColor;
+  }
+  a:hover .navbar-brand {
+    background-color: $navbarLinkHover;
+    display: block;
+    position: relative;
+    margin-left: -$paddingLeftRight;
+    margin-right: -$paddingLeftRight;
+    padding-left: $paddingLeftRight;
+    padding-right: $paddingLeftRight;
+  }
 }
 
 #headerImg {
@@ -93,10 +163,10 @@ a:hover {
 
 /* Footer and License */
 footer.yq-footer {
-  background-color: #586e75;
-  border-top: 1px dotted #657b83;
+  background-color: $footerBackground;
+  border-top: 1px dotted $footerBorder;
   clear: both;
-  color: #eee8d5;
+  color: $footerColor;
   margin-top: 100px;
   padding-top: 30px;
   padding-bottom: 40px;
@@ -104,7 +174,8 @@ footer.yq-footer {
 }
 
 footer a, footer a:hover {
-  color: #fdf6e3;
+  color: $footerLink;
+  background-color: inherit;
 }
 
 /* Misc

@@ -19,10 +19,12 @@ main =
         compile compressCssCompiler
 
     match "css/zeitlinse.scss" $ do
+        let sassCompiler =
+              getResourceString
+              >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
+              >>= return . fmap compressCss
         route $ setExtension "css"
-        compile $ getResourceString >>=
-           withItemBody (unixFilter "sass" ["-s", "--scss"]) >>=
-           return . fmap compressCss
+        compile sassCompiler
 
     match ("favicon.ico" .||. "robots.txt") $ do
       route idRoute
@@ -67,7 +69,7 @@ main =
                   , baseCtx ]
 
             let basePostMetaCtx = mconcat
-                  [ constField "metadescription" "Zeit Linse post archive"
+                  [ constField "metadescription" "ZeitLinse post archive"
                   , baseCtx ]
 
             makeItem ""
@@ -87,6 +89,14 @@ main =
                 >>= applyBase
                 >>= relativizeUrls
 
+    -- Render RSS feed
+    create ["atom.xml"] $ do
+      route idRoute
+      compile $ do
+        let feedContext = defaultPostCtx <> bodyField "description"
+        posts <- fmap (take 10) . recentFirst =<< loadAll "posts/*"
+        renderAtom (feedConfiguration "Recent Posts") feedContext posts
+
 
 defaultPostCtx :: Context String
 defaultPostCtx = mconcat
@@ -101,3 +111,13 @@ postList sortFilter = do
     posts   <- sortFilter =<< loadAll "posts/*"
     itemTpl <- loadBody "templates/post-item.html"
     applyTemplateList itemTpl defaultPostCtx posts
+
+feedConfiguration :: String -> FeedConfiguration
+feedConfiguration title =
+  FeedConfiguration {
+      feedTitle = "ZeitLinse Blog -- " ++ title
+    , feedDescription = "ZeitLinse Blog -- Science, Technologie, Privacy"
+    , feedAuthorName = "Albert Krewinkel"
+    , feedAuthorEmail = "zeitlinse+feed@moltkeplatz.de"
+    , feedRoot = "http://zeitlinse.moltkeplatz.de"
+  }

@@ -81,7 +81,7 @@ main =
         route idRoute
         compile $ do
             let indexCtx = field "posts" $ \_ ->
-                  postList $ fmap (take 10) . recentFirst
+                  postList $ fmap (take 5) . recentFirst
             getResourceBody
                 >>= applyAsTemplate indexCtx
                 >>= applyBase

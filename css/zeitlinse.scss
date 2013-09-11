@@ -191,6 +191,9 @@ footer a, footer a:hover {
   content: attr(data-domain);
 }
 
+/* Graphics */
+@import "css/graphics.scss"
+
 /**
  * Local Variables:
  * css-indent-offset: 2

@@ -57,6 +57,7 @@ main =
         route $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html" postCtx
+            >>= saveSnapshot "content"
             >>= applyBase
             >>= relativizeUrls
 
@@ -94,7 +95,8 @@ main =
       route idRoute
       compile $ do
         let feedContext = defaultPostCtx <> bodyField "description"
-        posts <- fmap (take 10) . recentFirst =<< loadAll "posts/*"
+        let recentPosts = fmap (take 10) . recentFirst
+        posts <- recentPosts =<< loadAllSnapshots "posts/*" "content"
         renderAtom (feedConfiguration "Recent Posts") feedContext posts
 
 

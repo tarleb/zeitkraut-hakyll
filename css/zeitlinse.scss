@@ -143,15 +143,15 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center;
 }
-@media screen and (min-device-width: 800px) {
+@media screen and (min-device-width: 768px) {
   #headerImg {
     opacity: 0;
   }
   #headerImageContainer {
-    background-image: url("/img/header_800x259.jpg");
+    background-image: url("/img/header_1024x332.jpg");
   }
 }
-@media screen and (min-device-width: 1028px) {
+@media screen and (min-device-width: 1024px) {
   #headerImageContainer {
     background-image: url("/img/header_1280x415.jpg");
   }

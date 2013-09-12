@@ -45,19 +45,24 @@ main =
         route   idRoute
         compile copyFileCompiler
 
-    -- base context and template
+    -- base and post contexts
     let baseCtx   = defaultContext
+    let postCtx    = mconcat
+                     [ dateField "date" "%B %e, %Y"
+                     , dateField "datetime" "%Y-%m-%d"
+                     , defaultContext
+                     ]
+    -- applying the base template
     let applyBase = loadAndApplyTemplate "templates/base.html" baseCtx
 
-    -- context for individual posts
-    let postCtx    = defaultPostCtx
-
     -- root level static pages
-    match ("about.markdown" .||. "imprint.markdown") $ do
-        route   $ setExtension "html"
-        compile $ pandocCompiler
-            >>= applyBase
-            >>= relativizeUrls
+    match ("about.html" .||. "imprint.html") $ do
+        route idRoute
+        compile $ do
+            getResourceBody
+                  >>= applyAsTemplate postCtx
+                  >>= applyBase
+                  >>= relativizeUrls
 
     -- render each of the individual posts
     match "posts/*" $ do
@@ -73,7 +78,7 @@ main =
         route idRoute
         compile $ do
             let postListCtx = mconcat
-                  [ field "posts" (\_ -> postList recentFirst)
+                  [ field "posts" (\_ -> postList postCtx recentFirst)
                   , baseCtx ]
 
             let basePostMetaCtx = mconcat
@@ -91,7 +96,7 @@ main =
         route idRoute
         compile $ do
             let indexCtx = field "posts" $ \_ ->
-                  postList $ fmap (take 5) . recentFirst
+                  postList postCtx $ fmap (take 5) . recentFirst
             getResourceBody
                 >>= applyAsTemplate indexCtx
                 >>= applyBase
@@ -101,25 +106,19 @@ main =
     create ["atom.xml"] $ do
       route idRoute
       compile $ do
-        let feedContext = defaultPostCtx <> bodyField "description"
+        let feedContext = postCtx <> bodyField "description"
         let recentPosts = fmap (take 10) . recentFirst
         posts <- recentPosts =<< loadAllSnapshots "posts/*" "content"
         renderAtom (feedConfiguration "Recent Posts") feedContext posts
 
 
-defaultPostCtx :: Context String
-defaultPostCtx = mconcat
-  [ dateField "date" "%B %e, %Y"
-  , dateField "datetime" "%Y-%m-%d"
-  , defaultContext
-  ]
-
-postList :: ([Item String] -> Compiler [Item String])
+postList :: Context String
+            -> ([Item String] -> Compiler [Item String])
             -> Compiler String
-postList sortFilter = do
+postList ctx sortFilter = do
     posts   <- sortFilter =<< loadAll "posts/*"
     itemTpl <- loadBody "templates/post-item.html"
-    applyTemplateList itemTpl defaultPostCtx posts
+    applyTemplateList itemTpl ctx posts
 
 feedConfiguration :: String -> FeedConfiguration
 feedConfiguration title =

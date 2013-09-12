@@ -6,9 +6,16 @@ import Hakyll.Core.Identifier
 import Data.Maybe (fromMaybe)
 import Data.Monoid
 
+config :: Configuration
+config =
+  defaultConfiguration {
+    deployCommand = "rsync --checksum --delete -ave 'ssh' "
+                    ++ "_site/ krewinkel@moltkeplatz.de:/var/www/zeitlinse.moltkeplatz.de/"
+  }
+
 main :: IO ()
 main =
-  hakyll $ do
+  hakyllWith config $ do
 
     -- compile templates
     match "templates/*" $ compile templateCompiler

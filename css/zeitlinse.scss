@@ -8,11 +8,14 @@
  * complement:          D48C42	9F764D	8A5015	EAAE71	EABE91
  */
 
+/* Navbar Colors */
 $navbarColor: #ddd;
 $navbarBrandColor: #ffffff;
 $navbarBackgroundColor: #04303c;
 $navbarBorderColor: #bababa;
 $navbarLinkHover: #304a52;
+/* Navbar Dimensions */
+$navbarHeight: 50px;
 
 $headline1: #04303c;
 $headline2: #304951;
@@ -33,19 +36,18 @@ $footerBorder: #bababa;
 $footerBackground: #858585;
 $footerColor: #ddd;
 $footerLink:  #fff;
+$footerHeight: 100px;
 
 html {
   height: 100%;
 }
 
 body {
-  height: 100%;
-}
-
-body {
   color: $text;
   font-family: Helvetica, Arial, sans-serif;
-  padding-top: 50px;
+  height: 100%;
+  padding-top: $navbarHeight;
+  padding-bottom: 2 * $footerHeight;
 }
 
 @mixin headerCode {
@@ -54,7 +56,6 @@ body {
     background-color: $headerCodeBackgroundColor;
   }
 }
-
 
 h1 {
   color: $headline1;
@@ -71,7 +72,7 @@ date {
 
 #post {
   position: relative;
-  top: -36px;
+  top: -$navbarHeight;
 }
 
 code {
@@ -171,12 +172,14 @@ a:hover {
 footer.yq-footer {
   background-color: $footerBackground;
   border-top: 1px dotted $footerBorder;
+  /* bottom: -$footerHeight; */
   clear: both;
   color: $footerColor;
-  margin-top: 100px;
+  margin-top: $footerHeight;
+  min-height: $footerHeight;
   padding-top: 30px;
   padding-bottom: 40px;
-  position: relative;
+  /* position: relative; */
 }
 
 footer a, footer a:hover {

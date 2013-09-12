@@ -1,20 +1,3 @@
-* {
-    stroke: none;
-}
-.lupe .lens {
-    stroke: black;
-}
-.lupe .handle {
-    fill: black;
-}
-.hours, .minutes {
-    fill: black;
-}
-.seconds {
-    fill: maroon;
-    opacity: 50;
-}
-
 .navbar-brand, .yq-footer {
   * {
     stroke: none;
@@ -36,5 +19,29 @@
   }
   .centerpiece {
     fill: $navbarBrandColor;
+  }
+}
+
+.black-logo {
+  * {
+    stroke: none;
+  }
+  .lupe .lens {
+      stroke: black;
+  }
+  .lupe .handle {
+      fill: black;
+  }
+  .hours .dial, .minutes .dial {
+      fill: black;
+  }
+  .seconds {
+    .dial {
+      fill: black;
+      opacity: 50;
+    }
+  }
+  .centerpiece {
+    fill: black;
   }
 }

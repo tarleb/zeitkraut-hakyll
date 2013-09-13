@@ -109,7 +109,7 @@ main =
         let feedContext = postCtx <> bodyField "description"
         let recentPosts = fmap (take 10) . recentFirst
         posts <- recentPosts =<< loadAllSnapshots "posts/*" "content"
-        renderAtom (feedConfiguration "Recent Posts") feedContext posts
+        renderAtom feedConfiguration feedContext posts
 
 
 postList :: Context String
@@ -120,10 +120,10 @@ postList ctx sortFilter = do
     itemTpl <- loadBody "templates/post-item.html"
     applyTemplateList itemTpl ctx posts
 
-feedConfiguration :: String -> FeedConfiguration
-feedConfiguration title =
+feedConfiguration :: FeedConfiguration
+feedConfiguration =
   FeedConfiguration {
-      feedTitle = "ZeitLinse Blog -- " ++ title
+      feedTitle = "ZeitLinse Blog"
     , feedDescription = "ZeitLinse Blog -- Science, Technologie, Privacy"
     , feedAuthorName = "Albert Krewinkel"
     , feedAuthorEmail = "zeitlinse+feed@moltkeplatz.de"

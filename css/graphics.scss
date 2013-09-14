@@ -1,3 +1,4 @@
+/* -*- css -*- */
 .navbar-brand, .yq-footer {
   * {
     stroke: none;
@@ -45,3 +46,33 @@
     fill: black;
   }
 }
+
+.blue-logo {
+  * {
+    stroke: none;
+  }
+  .lupe .lens {
+      stroke: $navbarBackgroundColor;
+  }
+  .lupe .handle {
+      fill: $navbarBackgroundColor;
+  }
+  .hours .dial, .minutes .dial {
+      fill: $navbarBackgroundColor;
+  }
+  .seconds {
+    .dial {
+      fill: $navbarBackgroundColor;
+      opacity: 50;
+    }
+  }
+  .centerpiece {
+    fill: $navbarBackgroundColor;
+  }
+}
+
+/**
+ * Local Variables:
+ * css-indent-offset: 2
+ * end:
+ */

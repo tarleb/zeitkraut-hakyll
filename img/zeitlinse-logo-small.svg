@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"  standalone="no"?>
-<?xml-stylesheet href="../css/graphics.css" type="text/css"?>
+<?xml-stylesheet href="../css/zeitlinse.css" type="text/css"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg viewBox="0 0 212 212"
+     class="blue-logo"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink" >
   <g transform="translate(100 105)">
@@ -17,7 +18,7 @@
       <rect class="dial" x="0px" y="-10px" width="70px" height="20px" rx="14px"/>
     </g>
     <!-- seconds -->
-    <g class="seconds" transform="rotate(90)">
+    <g class="seconds" transform="rotate(110)">
       <circle cx="0" cy="0" r="2" stroke="none"  />
       <rect class="dial" x="0px" y="-1px" width="78px" height="3px" rx="5px"/>
     </g>

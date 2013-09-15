@@ -4,35 +4,49 @@
 <svg viewBox="0 0 212 212"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <defs>
+    <style type="text/css"><![CDATA[
+      * {
+        stroke: none;
+      }
+      .lupe .lens {
+        stroke: #316189;
+      }
+      .lupe .handle, .dial, .centerpiece {
+        fill: #316189;
+      }
+ ]]></style>
+  </defs>
+
   <g transform="translate(100 100)">
     <!-- hours -->
-    <g class="hours" transform="rotate(310)">
-      <rect class="dial" x="-11" y="-50" width="22" height="50" ry="16px" fill="#316189"/>
+    <g id="hourDial" class="hours" transform="rotate(310)">
+      <rect class="dial" x="-11" y="-50" width="22" height="50" ry="16px"/>
     </g>
     <!-- minutes -->
-    <g class="minutes" transform="rotate(60)">
-      <rect class="dial" x="-10" y="-70" width="20" height="70" ry="14px" fill="#316189"/>
+    <g id="minuteDial" class="minutes" transform="rotate(60)">
+      <rect class="dial" x="-10" y="-70" width="20" height="70" ry="14px"/>
     </g>
     <!-- seconds -->
-    <g class="seconds" transform="rotate(200)">
-      <circle class="centerpiece" cx="0" cy="0" r="2" stroke="none"  fill="#316189" />
-      <rect class="dial" x="-2" y="-73" width="4" height="73" ry="5px" fill="#316189"/>
+    <g id="secondDial" class="seconds" transform="rotate(200)">
+      <circle class="centerpiece" cx="0" cy="0" r="2"/>
+      <rect class="dial" x="-2" y="-73" width="4" height="73" ry="5px"/>
     </g>
     <!-- clock center -->
-    <circle class="centerpiece hours minutes" cx="0" cy="0" r="15" stroke="none" fill="#316189"/>
+    <circle class="centerpiece hours minutes" cx="0" cy="0" r="15"/>
   </g>
   <g class="lupe" transform="translate(100 100) rotate(45)">
     <!-- lens -->
-    <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke="#316189" stroke-width="26px" />
+    <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke-width="26px" />
     <!-- handle -->
-    <rect class="handle" x="90" y="-30px" width="40" height="60px" rx="5px" fill="#316189" />
+    <rect class="handle" x="90" y="-30px" width="40" height="60px" rx="5px"/>
   </g>
   <script type="application/javascript"><![CDATA[
 (function () {
-var clock = function() {
-  var sDial = document.getElementsByClassName("seconds")[0];
-  var mDial = document.getElementsByClassName("minutes")[0];
-  var hDial = document.getElementsByClassName("hours")[0];
+var updateClock = (function() {
+  var sDial = document.getElementById("secondDial");
+  var mDial = document.getElementById("minuteDial");
+  var hDial = document.getElementById("hourDial");
 
   function moveDials(hours, minutes, seconds) {
     hDeg = (360 / 12) * (hours + minutes/60);
@@ -47,9 +61,12 @@ var clock = function() {
     var currentTime = new Date();
     moveDials(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
   };
-  update();
-};
-setInterval(clock, 50);
+
+  return update;
+})();
+
+// update every 50ms, just to be sure
+setInterval(updateClock, 50);
 })();
   ]]></script>
 </svg>

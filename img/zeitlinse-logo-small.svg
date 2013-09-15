@@ -6,14 +6,11 @@
      xmlns:xlink="http://www.w3.org/1999/xlink" >
   <defs>
     <style type="text/css"><![CDATA[
-      * {
-        stroke: none;
+      .lens {
+        stroke: #2c7184;
       }
-      .lupe .lens {
-        stroke: #316189;
-      }
-      .lupe .handle, .dial, .centerpiece {
-        fill: #316189;
+      .handle, .dial, .centerpiece {
+        fill: #2c7184;
       }
  ]]></style>
   </defs>
@@ -37,7 +34,7 @@
   </g>
   <g class="lupe" transform="translate(100 100) rotate(45)">
     <!-- lens -->
-    <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke-width="26px" />
+    <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke="#2c7184" stroke-width="26px" />
     <!-- handle -->
     <rect class="handle" x="90" y="-30px" width="40" height="60px" rx="5px"/>
   </g>

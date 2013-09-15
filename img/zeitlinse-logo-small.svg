@@ -1,42 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+  <!ENTITY mainColor "#2c7184">
+]>
 <svg viewBox="0 0 212 212"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink" >
   <defs>
-    <style type="text/css"><![CDATA[
-      .lens {
-        stroke: #2c7184;
-      }
+    <style type="text/css">
       .handle, .dial, .centerpiece {
-        fill: #2c7184;
+        fill: &mainColor;;
       }
- ]]></style>
+    </style>
   </defs>
 
   <g transform="translate(100 100)">
     <!-- hours -->
     <g id="hourDial" class="hours" transform="rotate(310)">
-      <rect class="dial" x="-11" y="-50" width="22" height="50" ry="16px"/>
+      <rect class="dial"
+            x="-11"
+            y="-50"
+            width="22"
+            height="50"
+            ry="16px"/>
     </g>
     <!-- minutes -->
     <g id="minuteDial" class="minutes" transform="rotate(60)">
-      <rect class="dial" x="-10" y="-70" width="20" height="70" ry="14px"/>
+      <rect class="dial"
+            x="-10"
+            y="-70"
+            width="20"
+            height="70"
+            ry="14px"/>
     </g>
     <!-- seconds -->
     <g id="secondDial" class="seconds" transform="rotate(200)">
-      <circle class="centerpiece" cx="0" cy="0" r="2"/>
-      <rect class="dial" x="-2" y="-73" width="4" height="73" ry="5px"/>
+      <circle class="centerpiece"
+              cx="0"
+              cy="0"
+              r="2"/>
+      <rect class="dial"
+            x="-2"
+            y="-73"
+            width="4"
+            height="73"
+            ry="5px"/>
     </g>
     <!-- clock center -->
-    <circle class="centerpiece hours minutes" cx="0" cy="0" r="15"/>
+    <circle class="centerpiece hours minutes"
+            cx="0"
+            cy="0"
+            r="15"/>
   </g>
-  <g class="lupe" transform="translate(100 100) rotate(45)">
+  <g class="lupe"
+     transform="translate(100 100) rotate(45)">
     <!-- lens -->
-    <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke="#2c7184" stroke-width="26px" />
+    <circle class="lens"
+            cx="0"
+            cy="0"
+            r="86"
+            fill="none"
+            stroke="&mainColor;"
+            stroke-width="26px" />
     <!-- handle -->
-    <rect class="handle" x="90" y="-30px" width="40" height="60px" rx="5px"/>
+    <rect class="handle"
+          x="90"
+          y="-30px"
+          width="40"
+          height="60px"
+          rx="5px"/>
   </g>
   <script type="application/javascript"><![CDATA[
 (function () {

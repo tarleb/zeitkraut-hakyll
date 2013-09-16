@@ -1,10 +1,10 @@
-var clock = function() {
-  var sDial = document.getElementsByClassName("seconds")[0];
-  var mDial = document.getElementsByClassName("minutes")[0];
-  var hDial = document.getElementsByClassName("hours")[0];
+var updateClock = (function() {
+  var sDial = document.getElementById("secondDial");
+  var mDial = document.getElementById("minuteDial");
+  var hDial = document.getElementById("hourDial");
 
   function moveDials(hours, minutes, seconds) {
-    hDeg = (360 / 12) * hours;
+    hDeg = (360 / 12) * (hours + minutes/60);
     mDeg = (360 / 60) * minutes;
     sDeg = (360 / 60) * seconds;
     sDial.setAttribute("transform", "rotate("+sDeg+")");
@@ -16,7 +16,9 @@ var clock = function() {
     var currentTime = new Date();
     moveDials(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
   };
-  update();
-}
 
-setInterval(clock, 50);
+  return update;
+})();
+
+// update every 50ms, just to be sure
+setInterval(updateClock, 50);

@@ -4,9 +4,9 @@ var updateClock = (function() {
   var hDial = document.getElementById("hourDial");
 
   function moveDials(hours, minutes, seconds) {
-    hDeg = (360 / 12) * (hours + minutes/60);
-    mDeg = (360 / 60) * minutes;
-    sDeg = (360 / 60) * seconds;
+    var hDeg = (360 / 12) * (hours + minutes/60);
+    var mDeg = (360 / 60) * minutes;
+    var sDeg = (360 / 60) * seconds;
     sDial.setAttribute("transform", "rotate("+sDeg+")");
     mDial.setAttribute("transform", "rotate("+mDeg+")");
     hDial.setAttribute("transform", "rotate("+hDeg+")");

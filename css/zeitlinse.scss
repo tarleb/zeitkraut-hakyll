@@ -187,6 +187,11 @@ footer a, footer a:hover {
   background-color: inherit;
 }
 
+abbr[title],
+abbr[data-original-title] {
+  border-color: #dddddd;
+}
+
 /* Misc
  * **** */
 /* Avoiding Spam */

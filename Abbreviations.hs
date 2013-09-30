@@ -12,25 +12,29 @@ markAbbreviations text =
   replaceAll "%[a-zA-Z0-9_]*" replacement text
     where replacement matched = case M.lookup (tail matched) abbrMap of
             Nothing -> matched
-            Just a -> "<abbr title=\"" ++ a ++ "\">" ++ (tail matched) ++ "</abbr>"
+            Just (classes, meaning) ->
+                "<abbr class=\"" ++ (maybe "" id classes) ++ "\""
+                                     ++ " title=\"" ++ meaning ++ "\">"
+                                     ++ (tail matched) ++ "</abbr>"
 
-abbrMap :: Map String String
+abbrMap :: Map String (Maybe String, String)
 abbrMap = M.fromList
-          [ ("CCC",   "Chaos Computer Club")
-          , ("CSS",   "Cascading Style Sheets")
-          , ("CSS2",  "Cascading Style Sheets, second revision")
-          , ("CSS3",  "Cascading Style Sheets, third revision")
-          , ("DRY",   "Don't Repeat Yourself")
-          , ("GRDDL", "Gleaning Resource Descriptions from Dialects of Languages")
-          , ("HTML",  "HyperText Markup Language")
-          , ("HTML5", "HyperText Markup Language, fifth revision")
-          , ("IE",    "Internet Explorer")
-          , ("Sass",  "Syntactically Awesome StyleSheets")
-          , ("SEO",   "Search Engine Optimisation")
-          , ("SVG",   "Scalable Vector Graphics")
-          , ("RDF",   "Resource Description Framework")
-          , ("W3C",   "World Wide Web Consortium")
-          , ("XHTML", "eXtensible Hypertext Markup Language")
-          , ("XML",   "eXtensible Markup Language")
-          , ("XSLT",  "Extensible Stylesheet Language Transformations")
+          -- Abbr     extra classes  meaning
+          [ ("CCC",   (Just "initialism",  "Chaos Computer Club"))
+          , ("CSS",   (Just "initialism",  "Cascading Style Sheets"))
+          , ("CSS2",  (Just "initialism",  "Cascading Style Sheets, second revision"))
+          , ("CSS3",  (Just "initialism",  "Cascading Style Sheets, third revision"))
+          , ("DRY",   (Just "initialism",  "Don't Repeat Yourself"))
+          , ("GRDDL", (Just "initialism",  "Gleaning Resource Descriptions from Dialects of Languages"))
+          , ("HTML",  (Just "initialism",  "HyperText Markup Language"))
+          , ("HTML5", (Just "initialism",  "HyperText Markup Language, fifth revision"))
+          , ("IE",    (Just "initialism",  "Internet Explorer"))
+          , ("Sass",  (Nothing          , "Syntactically Awesome StyleSheets"))
+          , ("SEO",   (Just "initialism",  "Search Engine Optimisation"))
+          , ("SVG",   (Just "initialism",  "Scalable Vector Graphics"))
+          , ("RDF",   (Just "initialism",  "Resource Description Framework"))
+          , ("W3C",   (Nothing          ,  "World Wide Web Consortium"))
+          , ("XHTML", (Just "initialism",  "eXtensible Hypertext Markup Language"))
+          , ("XML",   (Just "initialism",  "eXtensible Markup Language"))
+          , ("XSLT",  (Just "initialism",  "Extensible Stylesheet Language Transformations"))
           ]

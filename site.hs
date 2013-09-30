@@ -6,6 +6,8 @@ import Hakyll.Core.Identifier
 import Data.Maybe (fromMaybe)
 import Data.Monoid
 
+import Abbreviations
+
 config :: Configuration
 config =
   defaultConfiguration {
@@ -53,7 +55,8 @@ main =
                      , defaultContext
                      ]
     -- applying the base template
-    let applyBase = loadAndApplyTemplate "templates/base.html" baseCtx
+    let applyBase item = loadAndApplyTemplate "templates/base.html" baseCtx item
+                         >>= withItemBody (return . markAbbreviations)
 
     -- root level static pages
     match ("about.html" .||. "imprint.html") $ do

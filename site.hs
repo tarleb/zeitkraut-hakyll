@@ -59,7 +59,7 @@ main =
                          >>= withItemBody (return . markAbbreviations)
 
     -- root level static pages
-    match ("about.html" .||. "imprint.html") $ do
+    match ("about.html" .||. "contact.html") $ do
         route idRoute
         compile $ do
             getResourceBody

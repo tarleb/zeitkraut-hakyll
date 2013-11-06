@@ -139,6 +139,10 @@ a:hover {
   }
 }
 
+#headerImageContainer {
+  max-height: calc(50px + 50px * 1.61803);
+}
+
 #headerImg {
   border: 0px;
   width: 100%;

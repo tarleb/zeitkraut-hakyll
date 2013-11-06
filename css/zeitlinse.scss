@@ -140,12 +140,12 @@ a:hover {
 }
 
 #headerImageContainer {
-  max-height: calc(50px + 50px * 1.61803);
+  max-height: calc($navbarHeight + $navbarHeight * 1.61803);
+  display: none;
 }
 
 #headerImg {
   border: 0px;
-  width: 100%;
 }
 
 #headerImageContainer {
@@ -159,6 +159,7 @@ a:hover {
   }
   #headerImageContainer {
     background-image: url("/img/header_1024x332.jpg");
+    display: block;
   }
 }
 @media screen and (min-device-width: 1024px) {

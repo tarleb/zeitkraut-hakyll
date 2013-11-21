@@ -77,7 +77,7 @@ main =
             >>= relativizeUrls
 
     -- create a full list of all posts
-    create ["posts.html"] $ do
+    create ["archive.html"] $ do
         route idRoute
         compile $ do
             let postListCtx = mconcat
@@ -89,7 +89,7 @@ main =
                   , baseCtx ]
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" postListCtx
+                >>= loadAndApplyTemplate "templates/archive.html" postListCtx
                 >>= loadAndApplyTemplate "templates/base.html"  basePostMetaCtx
                 >>= relativizeUrls
 
@@ -99,7 +99,7 @@ main =
         route idRoute
         compile $ do
             let indexCtx = field "posts" $ \_ ->
-                  postList postCtx $ fmap (take 5) . recentFirst
+                  postList postCtx $ fmap (take 3) . recentFirst
             getResourceBody
                 >>= applyAsTemplate indexCtx
                 >>= applyBase

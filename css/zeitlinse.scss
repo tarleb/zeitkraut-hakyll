@@ -1,59 +1,51 @@
-/* -*- css -*-
- * Color Scheme:
- * Base color:          2C7184  304951  04303C  86CEE3  B5D9E3
- * triad color 1:       D4A842  82714B  614607  F5D68D  F5E6C2
- * triad color 2:       D45642  82524B  611307  F59B8D  F5C9C2
- * analogic 1:          316189	334555	052540	8DBEE7	BCD3E7
- * analogic 2:          298579	2F524D	053E36	86E6D9	B8E6E0
- * complement:          D48C42	9F764D	8A5015	EAAE71	EABE91
- */
-
+/* -*- css -*- */
 @import "css/_settings.scss";
 
-/* Navbar */
-$navbar-color: $white;
-$navbar-background-color: $base-color-dark;
-$navbar-border-color: $light-gray;
-$navbar-brand-color: $bright-white;
-$navbar-height: 50px;
-$navbar-link-hover-color: $base-color-medium-dark;
+/* Basic Text Colors */
+$default-text-color:    $black;
+$default-bg-color:      $bright-white;
 
 /* Links */
-$link: $base-color;
-$link-background: #fafafa;
-$link-hover: $triad-color-1-medium-dark;
+$link-color:            $base-color;
+$link-bg-color:         $very-light-gray;
+$link-hover-color:      $triad-color-1;
+$link-hover-bg-color:   $very-light-gray;
 
-/* Basic Text Colors */
-$default-text-color: $black;
-$default-background-color: $bright-white;
-$text: $black;
+/* Code */
+$code-color:            $triad-color-2-dark;
+$code-bg-color:         $very-light-gray;
+$pre-color:             $black;
+$pre-bg-color:          $very-light-gray;
+$pre-border-color:      $light-gray;
 
-$code-text-color: $triad-color-2-dark;
-$code-background-color: $very-light-gray;
+/* Navbar */
+$navbar-color:          $white;
+$navbar-bg-color:       $base-color-dark;
+$navbar-border-color:   $light-gray;
+$navbar-brand-color:    $bright-white;
+$navbar-height:         50px;
+$navbar-link-hover-color: $base-color-darker;
 
-$footer-border-color: $light-gray;
-$footer-background-color: $medium-gray;
-$footer-text-color: $dark-white;
-$footer-link-color:  $bright-white;
-$footer-height: 100px;
+/* Footer */
+$footer-border-color:   $dark-gray;
+$footer-bg-color:       $gray;
+$footer-height:         100px;
+$footer-link-color:     $bright-white;
+$footer-link-hover-color: $complement-color-lightened;
+$footer-text-color:     $dark-white;
 
-@mixin headerCode {
-  code {
-    color: $triad-color-2-dark;
-    background-color: $default-background-color;
-  }
-}
 
-/*
+/* -------------------- *
  * General Page Layout
- */
+ * -------------------- */
+
 html {
   height: 100%;
 }
 
 body {
   color: $default-text-color;
-  background-color: $default-background-color;
+  background-color: $default-bg-color;
   font-family: Helvetica, Arial, sans-serif;
   height: 100%;
   padding-top: $navbar-height;
@@ -65,14 +57,61 @@ body {
   min-height: 100%;
 }
 
+#content p {
+  text-align: justify;
+}
+
+/* -------------------- *
+ * Headers
+ * -------------------- */
+
+@mixin headerCode {
+  code {
+    color: $triad-color-2-dark;
+    background-color: $default-bg-color;
+  }
+}
+
 h1 {
   color: $base-color-dark;
   @include headerCode;
 }
 h2, h3, h4, h5, h6 {
-  color: $base-color-medium-dark;
+  color: $base-color-darker;
   @include headerCode;
 }
+
+/* -------------------- *
+ * Special Elements
+ * -------------------- */
+
+a {
+  color: $link-color;
+  background-color: $link-bg-color;
+
+  &:hover {
+    background-color: $link-hover-bg-color;
+    color: $link-hover-color;
+    text-decoration: none;
+
+    code {
+      color: $link-hover-color;
+    }
+  }
+}
+
+date {
+  color: $base-color-darker;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  border-color: $light-gray;
+}
+
+/* -------------------- *
+ * Posts and Post Lists
+ * -------------------- */
 
 ul.post-list {
   li {
@@ -81,24 +120,27 @@ ul.post-list {
   }
 }
 
-date {
-  color: $base-color-medium-dark;
-}
+/* -------------------- *
+ * Code
+ * -------------------- */
 
+/* Inline code */
 code {
-  color: $code-text-color;
-  background-color: $code-background-color;
+  color: $code-color;
+  background-color: $code-bg-color;
+  white-space: nowrap;
 }
 
-a {
-  color: $link;
-  background-color: $link-background;
-
-  &:hover {
-    color: $link-hover;
-    text-decoration: none;
-  }
+/* Blocks of code */
+pre {
+  color: $pre-color;
+  background-color: $pre-bg-color;
+  border: 1px solid $pre-border-color;
 }
+
+/* -------------------- *
+ * Icons and Logos
+ * -------------------- */
 
 .logo {
   display: inline-block;
@@ -108,18 +150,17 @@ a {
   width: 0.8em;
 }
 
-#content p {
-  text-align: justify;
-}
+/* -------------------- *
+ * Navigation Bar
+ * -------------------- */
 
-/* Header and Navigation Toolbar */
 #header {
   margin-bottom: 26px;
 }
 
 #navbar {
   color: $navbar-color;
-  background-color: $navbar-background-color;
+  background-color: $navbar-bg-color;
   border-color: $navbar-border-color;
 
   $paddingLeftRight: 15px;
@@ -140,12 +181,16 @@ a {
         position: relative;
       }
     }
-    
+
     .navbar-brand {
       color: $navbar-brand-color;
     }
   }
 }
+
+/* -------------------- *
+ * Header Image
+ * -------------------- */
 
 #headerImageContainer {
   background-size: 100%;
@@ -179,29 +224,30 @@ a {
   }
 }
 
-/* Footer and License */
-footer {
-  &.yq-footer {
-    background-color: $footer-background-color;
-    border-top: 1px dotted $footer-border-color;
-    clear: both;
-    color: $footer-text-color;
-    margin-top: $footer-height;
-    min-height: $footer-height;
-    padding-top: ($footer-height / $golden-ratio) / 2;
-  }
+/* -------------------- *
+ * Footer and License
+ * -------------------- */
 
-  a,
-  a:hover {
+footer {
+  background-color: $footer-bg-color;
+  border-top: 1px solid $footer-border-color;
+  clear: both;
+  color: $footer-text-color;
+  margin-top: $footer-height;
+  min-height: $footer-height;
+  padding-top: ($footer-height / $golden-ratio) / 2;
+
+  a {
     background-color: inherit;
     color: $footer-link-color;
   }
+
+  a:hover {
+    background-color: inherit;
+    color: $footer-link-hover-color;
+  }
 }
 
-abbr[title],
-abbr[data-original-title] {
-  border-color: #dddddd;
-}
 
 /* Misc
  * **** */

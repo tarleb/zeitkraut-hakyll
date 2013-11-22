@@ -1,4 +1,6 @@
 /* -*- css -*- */
+@import "css/_settings.scss";
+
 .navbar-brand, .yq-footer {
   * {
     stroke: none;
@@ -29,23 +31,23 @@
     stroke: none;
   }
   .lupe .lens {
-      stroke: black;
+      stroke: $black;
   }
   .lupe .handle {
-      fill: black;
+      fill: $black;
   }
   .hours .dial,
   .minutes .dial {
-      fill: black;
+      fill: $black;
   }
   .seconds {
     .dial {
-      fill: black;
+      fill: $black;
       opacity: 50;
     }
   }
   .centerpiece {
-    fill: black;
+    fill: $black;
   }
 }
 
@@ -54,23 +56,23 @@
     stroke: none;
   }
   .lupe .lens {
-      stroke: $navbar-background-color;
+      stroke: $navbar-bg-color;
   }
   .lupe .handle {
-      fill: $navbar-background-color;
+      fill: $navbar-bg-color;
   }
   .hours .dial,
   .minutes .dial {
-      fill: $navbar-background-color;
+      fill: $navbar-bg-color;
   }
   .seconds {
     .dial {
-      fill: $navbar-background-color;
+      fill: $navbar-bg-color;
       opacity: 50;
     }
   }
   .centerpiece {
-    fill: $navbar-background-color;
+    fill: $navbar-bg-color;
   }
 }
 

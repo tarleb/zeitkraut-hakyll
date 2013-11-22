@@ -8,25 +8,50 @@
  * complement:          D48C42	9F764D	8A5015	EAAE71	EABE91
  */
 
-$base-color: #2c7184;
-$base-color-dark: #04303c;
-$base-color-medium-dark: #304951;
+$base-hue:              193;
+$base-saturation:       50;
+$base-lightness:        35;
+$complement-hue:        30;
+$triad-1-hue:           $complement-hue + 30;
+$triad-2-hue:           $complement-hue - 30;
+$analogic-1-hue:        $base-hue + 14;
+$analogic-2-hue:        $base-hue - 14;
 
-$triad-color-1: #d4a842;
-$triad-color-1-medium-dark: #82714b;
+/* Base Color */
+$base-color:            hsl($base-hue, $base-saturation, $base-lightness);
+$base-color-dark:       saturate( darken($base-color, 20%), 10%);
+$base-color-darker:     darken($base-color, 10%);
+$bsae-color-light:      desaturate(lighten($base-color, 40%), 10%);
+$base-color-lightened:  desaturate(lighten($base-color, 25%),  3%);
 
-$triad-color-2: #d45642;
-$triad-color-2-dark: #611307;
+/* Triad Colors */
+$triad-color-1:         hsl($triad-1-hue, $base-saturation, $base-lightness);
+$triad-color-2:         hsl($triad-2-hue, $base-saturation, $base-lightness);
 
-$black: #2d2d2d;
-$bright-black: #000000;
+$triad-color-2-dark:    saturate(darken($triad-color-2, 20%), 10%);
 
-$dark-white: #ddd;
-$white: #eee;
-$bright-white: #ffffff;
+/* Complement Color */
+$complement-color:      hsl($complement-hue, $base-saturation, $base-lightness);
+$complement-color-light: desaturate(lighten($complement-color, 40%), 10%);
+$complement-color-lightened: lighten($complement-color, 25%);
 
-$medium-gray: #858585;
-$light-gray: #bababa;
-$very-light-gray: #fef6f9;
+/* Analogic Colors */
+$analogic-color-1:      hsl($analogic-1-hue, $base-saturation, $base-lightness);
+$analogic-color-2:      hsl($analogic-2-hue, $base-saturation, $base-lightness);
+
+/* Black and White */
+$black:                 desaturate(darken($base-color, 12%), 40%);
+$white:                 hsl($complement-hue, 2, 93.333333333);
+$dark-white:            darken($white,  8%);
+$bright-white:          lighten($white, 6.66666666667%);
+
+/* Gray */
+$gray-hue:              $base-hue;
+$gray-saturation:       2;
+$gray-lightness:        52;
+$gray:                  hsl($gray-hue, $gray-saturation, $gray-lightness);
+$dark-gray:             darken($gray, 20%);
+$light-gray:            lighten($gray, 40%);
+$very-light-gray:       hsl($gray-hue, $gray-saturation, 98);
 
 $golden-ratio: 1.61803;

@@ -4,22 +4,23 @@
     stroke: none;
   }
   .lupe .lens {
-      stroke: $navbarBrandColor;
+      stroke: $navbar-brand-color;
   }
   .lupe .handle {
-      fill: $navbarBrandColor;
+      fill: $navbar-brand-color;
   }
-  .hours .dial, .minutes .dial {
-      fill: $navbarBrandColor;
+  .hours .dial,
+  .minutes .dial {
+      fill: $navbar-brand-color;
   }
   .seconds {
     .dial {
-      fill: $navbarBrandColor;
+      fill: $navbar-brand-color;
       opacity: 50;
     }
   }
   .centerpiece {
-    fill: $navbarBrandColor;
+    fill: $navbar-brand-color;
   }
 }
 
@@ -33,7 +34,8 @@
   .lupe .handle {
       fill: black;
   }
-  .hours .dial, .minutes .dial {
+  .hours .dial,
+  .minutes .dial {
       fill: black;
   }
   .seconds {
@@ -52,22 +54,23 @@
     stroke: none;
   }
   .lupe .lens {
-      stroke: $navbarBackgroundColor;
+      stroke: $navbar-background-color;
   }
   .lupe .handle {
-      fill: $navbarBackgroundColor;
+      fill: $navbar-background-color;
   }
-  .hours .dial, .minutes .dial {
-      fill: $navbarBackgroundColor;
+  .hours .dial,
+  .minutes .dial {
+      fill: $navbar-background-color;
   }
   .seconds {
     .dial {
-      fill: $navbarBackgroundColor;
+      fill: $navbar-background-color;
       opacity: 50;
     }
   }
   .centerpiece {
-    fill: $navbarBackgroundColor;
+    fill: $navbar-background-color;
   }
 }
 

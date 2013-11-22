@@ -8,61 +8,69 @@
  * complement:          D48C42	9F764D	8A5015	EAAE71	EABE91
  */
 
-/* Navbar Colors */
-$navbarColor: #ddd;
-$navbarBrandColor: #ffffff;
-$navbarBackgroundColor: #04303c;
-$navbarBorderColor: #bababa;
-$navbarLinkHover: #304a52;
-/* Navbar Dimensions */
-$navbarHeight: 50px;
+@import "css/_settings.scss";
 
-$headline1: #04303c;
-$headline2: #304951;
+/* Navbar */
+$navbar-color: $white;
+$navbar-background-color: $base-color-dark;
+$navbar-border-color: $light-gray;
+$navbar-brand-color: $bright-white;
+$navbar-height: 50px;
+$navbar-link-hover-color: $base-color-medium-dark;
 
-$link: #2c7184;
-$linkBackground: #fafafa;
-$linkHover: #82714b;
+/* Links */
+$link: $base-color;
+$link-background: #fafafa;
+$link-hover: $triad-color-1-medium-dark;
 
+/* Basic Text Colors */
+$default-text-color: $black;
+$default-background-color: $bright-white;
+$text: $black;
 
-$text: #2d2d2d;
+$code-text-color: $triad-color-2-dark;
+$code-background-color: $very-light-gray;
 
-$codeColor: #611307;
-$codeBackground: #fef6f9;
-$headerCodeColor: #611307;
-$headerCodeBackgroundColor: white;
+$footer-border-color: $light-gray;
+$footer-background-color: $medium-gray;
+$footer-text-color: $dark-white;
+$footer-link-color:  $bright-white;
+$footer-height: 100px;
 
-$footerBorder: #bababa;
-$footerBackground: #858585;
-$footerColor: #ddd;
-$footerLink:  #fff;
-$footerHeight: 100px;
+@mixin headerCode {
+  code {
+    color: $triad-color-2-dark;
+    background-color: $default-background-color;
+  }
+}
 
+/*
+ * General Page Layout
+ */
 html {
   height: 100%;
 }
 
 body {
-  color: $text;
+  color: $default-text-color;
+  background-color: $default-background-color;
   font-family: Helvetica, Arial, sans-serif;
   height: 100%;
-  padding-top: $navbarHeight;
-  padding-bottom: 2 * $footerHeight;
+  padding-top: $navbar-height;
+  padding-bottom: 2 * $footer-height;
 }
 
-@mixin headerCode {
-  code {
-    color: $headerCodeColor;
-    background-color: $headerCodeBackgroundColor;
-  }
+/* Helper div, needed to keep footer fixed at the bottom */
+#wrap {
+  min-height: 100%;
 }
 
 h1 {
-  color: $headline1;
+  color: $base-color-dark;
   @include headerCode;
 }
 h2, h3, h4, h5, h6 {
-  color: $headline2;
+  color: $base-color-medium-dark;
   @include headerCode;
 }
 
@@ -74,38 +82,30 @@ ul.post-list {
 }
 
 date {
-  color: $headline2;
-}
-
-#post {
-  position: relative;
-  top: -$navbarHeight;
+  color: $base-color-medium-dark;
 }
 
 code {
-  color: $codeColor;
-  background-color: $codeBackground;
+  color: $code-text-color;
+  background-color: $code-background-color;
 }
 
 a {
   color: $link;
-  background-color: $linkBackground;
-}
-a:hover {
-  color: $linkHover;
-  text-decoration: none;
-}
+  background-color: $link-background;
 
-#wrap {
-  min-height: 100%;
+  &:hover {
+    color: $link-hover;
+    text-decoration: none;
+  }
 }
 
 .logo {
-  width: 0.8em;
+  display: inline-block;
   height: 0.8em;
   position: relative;
   top: 0.0em;
-  display: inline-block;
+  width: 0.8em;
 }
 
 #content p {
@@ -118,48 +118,47 @@ a:hover {
 }
 
 #navbar {
-  color: $navbarColor;
-  background-color: $navbarBackgroundColor;
-  border-color: $navbarBorderColor;
-
-  a {
-    color: $navbarColor;
-    background-color: inherit;
-  }
-  a:hover {
-    color: $navbarColor;
-    background-color: $navbarLinkHover;
-  }
+  color: $navbar-color;
+  background-color: $navbar-background-color;
+  border-color: $navbar-border-color;
 
   $paddingLeftRight: 15px;
-  a .navbar-brand {
-    color: $navbarBrandColor;
-  }
-  a:hover .navbar-brand {
-    background-color: $navbarLinkHover;
-    display: block;
-    position: relative;
-    margin-left: -$paddingLeftRight;
-    margin-right: -$paddingLeftRight;
-    padding-left: $paddingLeftRight;
-    padding-right: $paddingLeftRight;
-  }
-}
+  a {
+    color: $navbar-color;
+    background-color: inherit;
+    &:hover {
+      color: $navbar-brand-color;
+      background-color: $navbar-link-hover-color;
 
-#headerImageContainer {
-  max-height: calc($navbarHeight + $navbarHeight * 1.61803);
-  display: none;
-}
-
-#headerImg {
-  border: 0px;
+      .navbar-brand {
+        background-color: $navbar-link-hover-color;
+        display: block;
+        margin-left: -$paddingLeftRight;
+        margin-right: -$paddingLeftRight;
+        padding-left: $paddingLeftRight;
+        padding-right: $paddingLeftRight;
+        position: relative;
+      }
+    }
+    
+    .navbar-brand {
+      color: $navbar-brand-color;
+    }
+  }
 }
 
 #headerImageContainer {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
+  display: none;
+  max-height: calc($navbar-height * (1 + $golden-ratio));
 }
+
+#headerImg {
+  border: 0px;
+}
+
 @media screen and (min-device-width: 768px) {
   #headerImg {
     opacity: 0;
@@ -181,22 +180,22 @@ a:hover {
 }
 
 /* Footer and License */
-footer.yq-footer {
-  background-color: $footerBackground;
-  border-top: 1px dotted $footerBorder;
-  /* bottom: -$footerHeight; */
-  clear: both;
-  color: $footerColor;
-  margin-top: $footerHeight;
-  min-height: $footerHeight;
-  padding-top: 30px;
-  padding-bottom: 40px;
-  /* position: relative; */
-}
+footer {
+  &.yq-footer {
+    background-color: $footer-background-color;
+    border-top: 1px dotted $footer-border-color;
+    clear: both;
+    color: $footer-text-color;
+    margin-top: $footer-height;
+    min-height: $footer-height;
+    padding-top: ($footer-height / $golden-ratio) / 2;
+  }
 
-footer a, footer a:hover {
-  color: $footerLink;
-  background-color: inherit;
+  a,
+  a:hover {
+    background-color: inherit;
+    color: $footer-link-color;
+  }
 }
 
 abbr[title],
@@ -207,14 +206,18 @@ abbr[data-original-title] {
 /* Misc
  * **** */
 /* Avoiding Spam */
-.obfuscated-mail-address::before {
-  content: attr(data-user);
-}
-.obfuscated-mail-address > * {
-  display: none;
-}
-.obfuscated-mail-address::after {
-  content: attr(data-domain);
+.obfuscated-mail-address {
+  &::before {
+    content: attr(data-user);
+  }
+
+  > * {
+    display: none;
+  }
+
+  &::after {
+    content: attr(data-domain);
+  }
 }
 
 /* Graphics */

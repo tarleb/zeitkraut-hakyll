@@ -1,6 +1,7 @@
 /* -*- css -*- */
 @import "css/_settings.scss";
 
+
 /* Basic Text Colors */
 $default-text-color:    $black;
 $default-bg-color:      $bright-white;
@@ -31,7 +32,7 @@ $footer-border-color:   $dark-gray;
 $footer-bg-color:       $gray;
 $footer-height:         100px;
 $footer-link-color:     $bright-white;
-$footer-link-hover-color: $complement-color-lightened;
+$footer-link-hover-color: $bright-white;
 $footer-text-color:     $dark-white;
 
 
@@ -243,7 +244,7 @@ footer {
   }
 
   a:hover {
-    background-color: inherit;
+    background-color: $dark-gray;
     color: $footer-link-hover-color;
   }
 }

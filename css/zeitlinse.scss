@@ -9,7 +9,7 @@ $default-bg-color:      $bright-white;
 /* Links */
 $link-color:            $base-color;
 $link-bg-color:         $very-light-gray;
-$link-hover-color:      $triad-color-1;
+$link-hover-color:      darken(saturate($triad-color-1, 30%), 5%);
 $link-hover-bg-color:   $very-light-gray;
 
 /* Code */
@@ -68,7 +68,7 @@ body {
 
 @mixin headerCode {
   code {
-    color: $triad-color-2-dark;
+    color: $triad-color-2;
     background-color: $default-bg-color;
   }
 }

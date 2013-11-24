@@ -12,8 +12,8 @@ $base-hue:              193;
 $base-saturation:       50;
 $base-lightness:        35;
 $complement-hue:        30;
-$triad-1-hue:           $complement-hue + 15;
-$triad-2-hue:           $complement-hue - 15;
+$triad-1-hue:           $complement-hue + 20;
+$triad-2-hue:           $complement-hue - 20;
 $analogic-1-hue:        $base-hue + 14;
 $analogic-2-hue:        $base-hue - 14;
 
@@ -26,7 +26,7 @@ $base-color-lightened:  desaturate(lighten($base-color, 25%),  3%);
 
 /* Triad Colors */
 $triad-color-1:         hsl($triad-1-hue, $base-saturation, $base-lightness);
-$triad-color-2:         hsl($triad-2-hue, $base-saturation, $base-lightness);
+$triad-color-2:         adjust-hue($base-color, $triad-2-hue);
 
 $triad-color-2-dark:    saturate(darken($triad-color-2, 20%), 10%);
 

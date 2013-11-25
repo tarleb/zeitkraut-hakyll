@@ -99,6 +99,23 @@ a {
       color: $link-hover-color;
     }
   }
+
+  &[href^="http://"]::after,
+  &[href^="https://"]::after {
+    content: "";
+    font-family: FontAwesome;
+    font-size: 75%;
+    margin-left: 0.3em;
+    vertical-align: baseline;
+  }
+
+  &[href^="mailto:"]::after {
+    content: "";
+    font-family: FontAwesome;
+    font-size: 75%;
+    margin-left: 0.3em;
+    vertical-align: baseline;
+  }
 }
 
 date {

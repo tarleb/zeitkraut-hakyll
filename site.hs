@@ -27,7 +27,7 @@ main =
         route   idRoute
         compile compressCssCompiler
 
-    match "css/zeitlinse.scss" $ do
+    match ("css/zeitlens.scss" .||. "css/zeitlens-deck.scss") $ do
         let sassCompiler =
               getResourceString
               >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
@@ -85,7 +85,7 @@ main =
                   , baseCtx ]
 
             let basePostMetaCtx = mconcat
-                  [ constField "metadescription" "ZeitLinse post archive"
+                  [ constField "metadescription" "ZeitLens post archive"
                   , baseCtx ]
 
             makeItem ""
@@ -126,9 +126,9 @@ postList ctx sortFilter = do
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration {
-      feedTitle = "ZeitLinse Blog"
-    , feedDescription = "ZeitLinse Blog -- Science, Technologie, Privacy"
+      feedTitle = "ZeitLens Blog"
+    , feedDescription = "ZeitLens Blog -- Science, Technologie, Privacy"
     , feedAuthorName = "Albert Krewinkel"
-    , feedAuthorEmail = "zeitlinse+feed@moltkeplatz.de"
-    , feedRoot = "http://zeitlinse.moltkeplatz.de"
+    , feedAuthorEmail = "albert+feed@zeitlens.de"
+    , feedRoot = "http://zeitlens.com"
   }

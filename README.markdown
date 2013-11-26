@@ -1,4 +1,4 @@
-ZeitLinse Blog
---------------
+ZeitLens Blog
+-------------
 
-The code for the zeitlinse blog.
+The code for the [ZeitLens blog](http://zeitlens.com).

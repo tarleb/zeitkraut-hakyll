@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Host: zeitlinse.moltkeplatz.de
+Host: zeitlens.com

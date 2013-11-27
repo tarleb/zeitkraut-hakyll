@@ -2,40 +2,6 @@
 @import "css/_settings.scss";
 
 
-/* Basic Text Colors */
-$default-text-color:    $black;
-$default-bg-color:      $bright-white;
-
-/* Links */
-$link-color:            $base-color;
-$link-bg-color:         $very-light-gray;
-$link-hover-color:      darken(saturate($triad-color-1, 30%), 5%);
-$link-hover-bg-color:   $very-light-gray;
-
-/* Code */
-$code-color:            $triad-color-2-dark;
-$code-bg-color:         $very-light-gray;
-$pre-color:             $black;
-$pre-bg-color:          $very-light-gray;
-$pre-border-color:      $light-gray;
-
-/* Navbar */
-$navbar-color:          $white;
-$navbar-bg-color:       $base-color-dark;
-$navbar-border-color:   $light-gray;
-$navbar-brand-color:    $bright-white;
-$navbar-height:         50px;
-$navbar-link-hover-color: $base-color-darker;
-
-/* Footer */
-$footer-border-color:   $dark-gray;
-$footer-bg-color:       $gray;
-$footer-height:         100px;
-$footer-link-color:     $bright-white;
-$footer-link-hover-color: $bright-white;
-$footer-text-color:     $dark-white;
-
-
 /* -------------------- *
  * General Page Layout
  * -------------------- */

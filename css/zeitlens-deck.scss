@@ -1,5 +1,5 @@
 /* -*- css -*- */
-
+@import "css/_settings.scss";
 
 @mixin border-radius($r) {
   -webkit-border-radius:$r;

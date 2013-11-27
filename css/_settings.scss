@@ -1,16 +1,14 @@
-/* -*- css -*-
- * Color Scheme:
- * Base color:          2C7184  304951  04303C  86CEE3  B5D9E3
- * triad color 1:       D4A842  82714B  614607  F5D68D  F5E6C2
- * triad color 2:       D45642  82524B  611307  F59B8D  F5C9C2
- * analogic 1:          316189	334555	052540	8DBEE7	BCD3E7
- * analogic 2:          298579	2F524D	053E36	86E6D9	B8E6E0
- * complement:          D48C42	9F764D	8A5015	EAAE71	EABE91
- */
+/* -*- css -*- */
 
+/* -------------------- *
+ * Color Scheme
+ * -------------------- */
+
+/* base color: #2C7184 */
 $base-hue:              193;
 $base-saturation:       50;
 $base-lightness:        35;
+
 $complement-hue:        30;
 $triad-1-hue:           $complement-hue + 20;
 $triad-2-hue:           $complement-hue - 20;
@@ -54,3 +52,41 @@ $light-gray:            lighten($gray, 40%);
 $very-light-gray:       hsl($gray-hue, $gray-saturation, 98);
 
 $golden-ratio: 1.61803;
+
+
+/* -------------------- *
+ * Page Style
+ * -------------------- */
+
+/* Basic Text Colors */
+$default-text-color:    $black;
+$default-bg-color:      $bright-white;
+
+/* Links */
+$link-color:            $base-color;
+$link-bg-color:         $very-light-gray;
+$link-hover-color:      darken(saturate($triad-color-1, 30%), 5%);
+$link-hover-bg-color:   $very-light-gray;
+
+/* Code */
+$code-color:            $triad-color-2-dark;
+$code-bg-color:         $very-light-gray;
+$pre-color:             $black;
+$pre-bg-color:          $very-light-gray;
+$pre-border-color:      $light-gray;
+
+/* Navbar */
+$navbar-color:          $white;
+$navbar-bg-color:       $base-color-dark;
+$navbar-border-color:   $light-gray;
+$navbar-brand-color:    $bright-white;
+$navbar-height:         50px;
+$navbar-link-hover-color: $base-color-darker;
+
+/* Footer */
+$footer-border-color:   $dark-gray;
+$footer-bg-color:       $gray;
+$footer-height:         100px;
+$footer-link-color:     $bright-white;
+$footer-link-hover-color: $bright-white;
+$footer-text-color:     $dark-white;

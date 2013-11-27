@@ -27,7 +27,13 @@ main =
         route   idRoute
         compile compressCssCompiler
 
-    match ("css/zeitlens.scss" .||. "css/zeitlens-deck.scss") $ do
+    -- styles
+    privateSassDependency <- makePatternDependency $
+                            "css/_settings.scss" .||.
+                            "css/syntac.scss"    .||.
+                            "css/graphics.scss"
+    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
+    rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
         let sassCompiler =
               getResourceString
               >>= withItemBody (unixFilter "sass" ["-s", "--scss"])

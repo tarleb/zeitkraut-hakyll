@@ -39,6 +39,10 @@ main =
       route idRoute
       compile copyFileCompiler
 
+    match ("decks/**" ) $ do
+      route idRoute
+      compile copyFileCompiler
+
     match "img/*" $ do
         route   idRoute
         compile copyFileCompiler

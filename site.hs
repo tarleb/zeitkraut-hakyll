@@ -139,6 +139,6 @@ feedConfiguration =
       feedTitle = "ZeitLens Blog"
     , feedDescription = "ZeitLens Blog -- Science, Technologie, Privacy"
     , feedAuthorName = "Albert Krewinkel"
-    , feedAuthorEmail = "albert+feed@zeitlens.de"
+    , feedAuthorEmail = "albert+feed@zeitlens.com"
     , feedRoot = "http://zeitlens.com"
   }

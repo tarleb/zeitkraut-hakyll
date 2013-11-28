@@ -45,7 +45,7 @@ main =
       route idRoute
       compile copyFileCompiler
 
-    match ("decks/**" ) $ do
+    match ("decks/**" .||. "fonts/**") $ do
       route idRoute
       compile copyFileCompiler
 

@@ -1,22 +1,26 @@
 {-# LANGUAGE OverloadedStrings #-}
-import           Hakyll
-import           Hakyll.Web.Tags
 import           Control.Applicative
-import           Hakyll.Core.Identifier
+import qualified Data.ByteString.Lazy as LazyBS
+import qualified Data.ByteString.Lazy.Builder as Builder
 import qualified Data.Map as M
 import           Data.Maybe (fromMaybe)
 import           Data.Monoid
 
-import Abbreviations
+import           Hakyll
+import           Hakyll.Web.Tags
+import           Hakyll.Core.Identifier
 
-config :: Configuration
-config =
-  defaultConfiguration {
-    deployCommand = "rsync --checksum --delete -ave 'ssh' "
-                    ++ "_site/ krewinkel@moltkeplatz.de:/var/www/zeitlinse.moltkeplatz.de/"
-  }
+import           Abbreviations
 
-logoTemplateIdentifier = "templates/img/zeitlens-logo-template.svg"
+
+data LogoStyle = DefaultLogoStyle
+               | InvertedLogoStyle
+               | BrandLogoStyle
+
+logoStyleFile :: LogoStyle -> Identifier
+logoStyleFile DefaultLogoStyle  = "css/zeitlens-logo-default.scss"
+logoStyleFile InvertedLogoStyle = "css/zeitlens-logo-inverted.scss"
+logoStyleFile BrandLogoStyle    = "css/zeitlens-logo-brand.scss"
 
 main :: IO ()
 main =
@@ -28,65 +32,73 @@ main =
     -- --------------------
     -- STATIC FILES
     -- --------------------
-    match ("favicon.ico"
-           .||. "robots.txt"
+    match (     "robots.txt"
            .||. "decks/**"
            .||. "fonts/**"
-           .||. "img/*.jpg"
-           .||. "scripts/*") $ do
+           .||. "img/*.jpg") $ do
       route idRoute
       compile copyFileCompiler
+
 
     -- --------------------
     -- SCRIPTS
     -- --------------------
+    match "scripts/*" $ do
+      route idRoute
+      compile copyFileCompiler
+
     match "scripts/components/*" $ do
       compile $ getResourceBody >>= saveSnapshot "script-component"
+
 
     -- --------------------
     -- STYLES
     -- --------------------
 
-    -- copy static files
+    -- Copy static CSS files
     match "css/*.css" $ do
         route   idRoute
         compile compressCssCompiler
 
-    let logoStyles = M.fromList [ ("brand",    "css/zeitlens-logo-brand.scss")
-                                , ("default",  "css/zeitlens-logo-default.scss")
-                                , ("inverted", "css/zeitlens-logo-inverted.scss")
-                                ]
+    let logoStyles = map logoStyleFile
+                      [ DefaultLogoStyle, InvertedLogoStyle, BrandLogoStyle ]
     privateSassDependency <- makePatternDependency . fromList $
                              [ "css/_settings.scss"
                              , "css/syntax.scss"
-                             ] ++ M.elems logoStyles
+                             ] ++ logoStyles
     let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
     rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
         route $ setExtension "css"
         compile sassCompiler
 
-
-    -- --------------------
-    -- LOGOS
-    -- --------------------
-
-    match (fromList $ M.elems logoStyles) $ do
+    match (fromList logoStyles) $ do
       compile $ sassCompiler >>= saveSnapshot "logo-css"
 
-    match "img/zeitlens-logo.svg" $ do
-      compile $ getResourceBody >>= saveSnapshot "logo-svg"
 
-    createLogoWithScss "img/zeitlens-logo-default.svg"
-                       "css/zeitlens-logo-default.scss"
+    -- --------------------
+    -- LOGOS AND ICONS
+    -- --------------------
 
-    createLogoWithScss "img/zeitlens-logo-inverted.svg"
-                       "css/zeitlens-logo-inverted.scss"
+    match "img/zeitlens-logo.svg" $ do compile $ templateCompiler
 
-    createLogoWithScssAndScript
-                      "img/zeitlens-logo-animated.svg"
-                      "css/zeitlens-logo-default.scss"
-                      "scripts/components/animate-logo.js"
+    createLogo "img/zeitlens-logo-default.svg"  DefaultLogoStyle
+    createLogo "img/zeitlens-logo-inverted.svg" InvertedLogoStyle
 
+    createLogoWithScript "img/zeitlens-logo-animated.svg"
+                         DefaultLogoStyle
+                         "scripts/components/animate-logo.js"
+
+    createAppleTouchIcon "57x57"
+    createAppleTouchIcon "72x72"
+    createAppleTouchIcon "114x114"
+    createAppleTouchIcon "144x144"
+
+    createFavicon "favicon.ico"
+
+
+    -- --------------------
+    -- DEFAULT PAGES
+    -- --------------------
 
     -- applying the base template
     let applyBase item = loadAndApplyTemplate "templates/base.html" baseCtx item
@@ -100,6 +112,21 @@ main =
                   >>= applyAsTemplate postCtx
                   >>= applyBase
                   >>= relativizeUrls
+
+    -- --------------------
+    -- POSTS AND POST LISTS
+    -- --------------------
+
+    -- home page
+    match "index.html" $ do
+        route idRoute
+        compile $ do
+            let indexCtx = field "posts" $ \_ ->
+                  postList postCtx $ fmap (take 3) . recentFirst
+            getResourceBody
+                >>= applyAsTemplate indexCtx
+                >>= applyBase
+                >>= relativizeUrls
 
     -- render each of the individual posts
     match "posts/*" $ do
@@ -127,17 +154,6 @@ main =
                 >>= loadAndApplyTemplate "templates/base.html"  basePostMetaCtx
                 >>= relativizeUrls
 
-    -- home page
-    match "index.html" $ do
-        route idRoute
-        compile $ do
-            let indexCtx = field "posts" $ \_ ->
-                  postList postCtx $ fmap (take 3) . recentFirst
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= applyBase
-                >>= relativizeUrls
-
     -- Render RSS feed
     create ["atom.xml"] $ do
       route idRoute
@@ -156,6 +172,108 @@ postList ctx sortFilter = do
     itemTpl <- loadBody "templates/post-item.html"
     applyTemplateList itemTpl ctx posts
 
+sassCompiler :: Compiler (Item String)
+sassCompiler = getResourceString
+               >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
+               >>= return . fmap compressCss
+
+createLogoWithScript :: Identifier -> LogoStyle -> Identifier -> Rules ()
+createLogoWithScript imgRoute logoStyle jsPattern =
+    create [imgRoute] $ do
+      route idRoute
+      compile $ do
+        logoCompiler logoStyle (Just jsPattern) >>= makeItem
+
+createLogo :: Identifier -> LogoStyle -> Rules ()
+createLogo imgRoute logoStyle =
+    create [imgRoute] $ do
+      route idRoute
+      compile $ do
+        logoCompiler logoStyle Nothing >>= makeItem
+
+createAppleTouchIcon :: String -> Rules ()
+createAppleTouchIcon dimension =
+    create [fromFilePath $ "img/zeitlens-icon-" ++ dimension ++ ".png"] $ do
+      route idRoute
+      compile $ do
+        fmap toByteString invertedLogo
+                 >>= imagemagickFilter "png" dimension
+                 >>= makeItem
+  where
+    toByteString = Builder.toLazyByteString . Builder.stringUtf8
+    invertedLogo = logoCompiler InvertedLogoStyle Nothing
+
+createFavicon :: Identifier -> Rules ()
+createFavicon filename =
+    create [filename] $ do
+      route idRoute
+      compile $ do
+        fmap toByteString defaultLogo
+                 >>= imagemagickFilter "ico" "32x32"
+                 >>= makeItem
+  where
+    toByteString = Builder.toLazyByteString . Builder.stringUtf8
+    defaultLogo = logoCompiler DefaultLogoStyle Nothing
+
+logoCompiler :: LogoStyle -> Maybe Identifier -> Compiler String
+logoCompiler logoStyle jsPattern = do
+  css <- loadSnapshotBody (logoStyleFile logoStyle) "logo-css"
+  js  <- maybe (return "")
+               (fmap scriptTags . flip loadSnapshotBody "script-component")
+               jsPattern
+  let ctx = imgCtx (styleTags css) js
+  fmap itemBody $ makeItem ""
+           >>= loadAndApplyTemplate "templates/img/zeitlens-logo.svg" ctx
+
+-- Run input bytestring through imagemagick
+imagemagickFilter :: String
+                  -> String
+                  -> LazyBS.ByteString
+                  -> Compiler LazyBS.ByteString
+imagemagickFilter format dimension =
+    unixFilterLBS "convert" ["-" , "-resize" , dimension , format <> ":-"]
+
+-- Contexts
+imgCtx :: String -> String -> Context String
+imgCtx defs script =
+    field "logo" $ \item -> do
+      let ctx = mconcat
+                [ field "logo-defs" $ \_ -> return defs
+                , field "logo-script" $ \_ -> return script
+                , defaultContext ]
+      logo <- loadBody "templates/img/zeitlens-logo-template.svg"
+      fmap itemBody $ applyTemplate logo ctx item
+
+baseCtx :: Context String
+baseCtx   = (imgCtx "" "") <> defaultContext
+
+postCtx :: Context String
+postCtx   = mconcat
+            [ dateField "date" "%B %e, %Y"
+            , dateField "datetime" "%Y-%m-%d"
+            , baseCtx
+            ]
+
+styleTags :: String -> String
+styleTags content = "<style type=\"text/css\">" ++ content ++ "</style>"
+
+scriptTags :: String -> String
+scriptTags script =
+    "<script type=\"text/javascript\">//<![CDATA[\n" ++ script ++ "\n//]]></script>"
+
+
+-- --------------------
+-- CONFIGURATION
+-- --------------------
+
+config :: Configuration
+config =
+  defaultConfiguration {
+    deployCommand =
+        "rsync --checksum --delete -ave 'ssh' "
+        ++ "_site/ krewinkel@moltkeplatz.de:/var/www/zeitlinse.moltkeplatz.de/"
+  }
+
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration {
@@ -165,50 +283,3 @@ feedConfiguration =
     , feedAuthorEmail = "albert+feed@zeitlens.com"
     , feedRoot = "http://zeitlens.com"
   }
-
-sassCompiler = getResourceString
-               >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
-               >>= return . fmap compressCss
-
-createLogoWithScss imgRoute scssPattern =
-    create [imgRoute] $ do
-      route idRoute
-      compile $ do
-        css <- fmap itemBody $ loadSnapshot scssPattern "logo-css"
-        img <- fmap itemBody $ loadSnapshot "img/zeitlens-logo.svg" "logo-svg"
-                      >>= applyAsTemplate (imgCtx (styleTags css) "")
-        makeItem img
-
-createLogoWithScssAndScript imgRoute scssPattern jsPattern =
-    create [imgRoute] $ do
-      route idRoute
-      compile $ do
-        css <- fmap itemBody $ loadSnapshot scssPattern "logo-css"
-        js  <- fmap itemBody $ loadSnapshot jsPattern "script-component"
-        let ctx = imgCtx (styleTags css) (scriptTags js)
-        img <- fmap itemBody $ loadSnapshot "img/zeitlens-logo.svg" "logo-svg"
-                      >>= applyAsTemplate ctx
-        makeItem img
-
--- Contexts
-imgCtx defs script =
-    field "logo" $ \item -> do
-      let ctx = mconcat
-                [ field "logo-defs" $ \_ -> return defs
-                , field "logo-script" $ \_ -> return script
-                , defaultContext ]
-      logo <- loadBody logoTemplateIdentifier
-      fmap itemBody $ applyTemplate logo ctx item
-
-baseCtx   = (imgCtx "" "") <> defaultContext
-
-postCtx   = mconcat
-            [ dateField "date" "%B %e, %Y"
-            , dateField "datetime" "%Y-%m-%d"
-            , baseCtx
-            ]
-
-styleTags content = "<style type=\"text/css\">" ++ content ++ "</style>"
-
-scriptTags script =
-    "<script type=\"text/javascript\">//<![CDATA[\n" ++ script ++ "\n//]]></script>"

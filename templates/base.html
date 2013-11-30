@@ -36,39 +36,8 @@
               <a href="/">
                 <div class="navbar-brand">
                   <!-- ZeitLens logo -->
-                  <svg viewBox="0 0 220 220"
-                       xmlns="http://www.w3.org/2000/svg"
-                       xmlns:xlink="http://www.w3.org/1999/xlink"
-                       class="logo" id="zl-logo">
-                    <defs>
-                      <symbol id="zeitlens-logo">
-                        <g transform="translate(100 100)">
-                          <!-- hours -->
-                          <g class="hours" transform="rotate(310)">
-                            <rect class="dial" x="-11" y="-50" width="22" height="50" ry="16px" fill="white"/>
-                          </g>
-                          <!-- minutes -->
-                          <g class="minutes" transform="rotate(60)">
-                            <rect class="dial" x="-10" y="-70" width="20" height="70" ry="14px" fill="white"/>
-                          </g>
-                          <!-- seconds -->
-                          <g class="seconds" transform="rotate(200)" id="secdial">
-                            <circle class="centerpiece" cx="0" cy="0" r="2" stroke="none"  fill="white" />
-                            <rect class="dial" x="-2" y="-73" width="4" height="73" ry="5px" fill="white"/>
-                          </g>
-                          <!-- clock center -->
-                          <circle class="centerpiece hours minutes" cx="0" cy="0" r="15" stroke="none" fill="white"/>
-                        </g>
-                        <g class="lupe" transform="translate(100 100) rotate(45)">
-                          <!-- lens -->
-                          <circle class="lens" cx="0" cy="0" r="86" fill="none" stroke="white" stroke-width="26px" />
-                          <!-- handle -->
-                          <rect class="handle" x="90" y="-30px" width="40" height="60px" rx="5px" fill="white" />
-                        </g>
-                      </symbol>
-                    </defs>
-                    <use xlink:href="#zeitlens-logo" />
-                  </svg> ZeitLens
+                  <div class="logo inline-logo" id="brand-logo">$logo$</div>
+                  ZeitLens
                 </div>
               </a>
             </div>
@@ -96,11 +65,7 @@
            xmlns:dct="http://purl.org/dc/terms/"
            xmlns:cc="http//creativecommons.org/ns#">
         <span property="dct:title" style="display: none">ZeitLens-Blog</span>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink"
-             class="logo">
-          <use xlink:href="#zl-logo" />
-        </svg>-Blog is &copy;
+        <div class="inline-logo">$logo$</div>-Blog is &copy;
         <a xmlns:cc="http://creativecommons.org/ns#"
            href="http://zeitlens.com/contact.html#content"
            property="cc:attributionName"

@@ -1,7 +1,7 @@
 var updateClock = (function() {
-  var sDial = document.getElementById("secondDial");
-  var mDial = document.getElementById("minuteDial");
-  var hDial = document.getElementById("hourDial");
+  var sDial = document.querySelector(".logo-second-dial");
+  var mDial = document.querySelector(".logo-minute-dial");
+  var hDial = document.querySelector(".logo-hour-dial");
 
   function moveDials(hours, minutes, seconds) {
     var hDeg = (360 / 12) * (hours + minutes/60);

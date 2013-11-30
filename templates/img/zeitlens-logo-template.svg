@@ -1,21 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-  <!ENTITY mainColor "#2c7184">
-]>
 <svg viewBox="0 0 212 212"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <style type="text/css">
-      .handle, .dial, .centerpiece {
-        fill: &mainColor;;
-      }
-    </style>
+    $logo-defs$
   </defs>
-
+  <rect class="logo-background"
+        width="500"
+        height="500" />
   <g transform="translate(100 100)">
     <!-- hours -->
-    <g id="hourDial" class="hours" transform="rotate(310)">
+    <g class="logo-hour-dial" transform="rotate(310)">
       <rect class="dial"
             x="-11"
             y="-50"
@@ -24,7 +18,7 @@
             ry="16px"/>
     </g>
     <!-- minutes -->
-    <g id="minuteDial" class="minutes" transform="rotate(60)">
+    <g class="logo-minute-dial" transform="rotate(60)">
       <rect class="dial"
             x="-10"
             y="-70"
@@ -33,7 +27,7 @@
             ry="14px"/>
     </g>
     <!-- seconds -->
-    <g id="secondDial" class="seconds" transform="rotate(200)">
+    <g class="logo-second-dial" transform="rotate(200)">
       <circle class="centerpiece"
               cx="0"
               cy="0"
@@ -46,28 +40,27 @@
             ry="5px"/>
     </g>
     <!-- clock center -->
-    <circle class="centerpiece hours minutes"
+    <circle class="logo-centerpiece"
             cx="0"
             cy="0"
             r="15"/>
   </g>
-  <g class="lupe"
+  <g class="logo-lupe"
      transform="translate(100 100) rotate(45)">
     <!-- lens -->
-    <circle class="lens"
+    <circle class="logo-lens"
             cx="0"
             cy="0"
             r="86"
             fill="none"
-            stroke="&mainColor;"
             stroke-width="26px" />
     <!-- handle -->
-    <rect class="handle"
+    <rect class="logo-handle"
           x="90"
           y="-30px"
           width="40"
           height="60px"
           rx="5px"/>
   </g>
-  <script xlink:href="/scripts/animate-logo.js" type="text/ecmascript"></script>
+  $logo-script$
 </svg>

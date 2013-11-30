@@ -16,6 +16,8 @@ config =
                     ++ "_site/ krewinkel@moltkeplatz.de:/var/www/zeitlinse.moltkeplatz.de/"
   }
 
+logoTemplateIdentifier = "templates/img/zeitlens-logo-template.svg"
+
 main :: IO ()
 main =
   hakyllWith config $ do
@@ -23,59 +25,69 @@ main =
     -- compile templates
     match "templates/**" $ compile templateCompiler
 
+    -- --------------------
+    -- STATIC FILES
+    -- --------------------
+    match ("favicon.ico"
+           .||. "robots.txt"
+           .||. "decks/**"
+           .||. "fonts/**"
+           .||. "img/*.jpg"
+           .||. "scripts/*") $ do
+      route idRoute
+      compile copyFileCompiler
+
+    -- --------------------
+    -- SCRIPTS
+    -- --------------------
+    match "scripts/components/*" $ do
+      compile $ getResourceBody >>= saveSnapshot "script-component"
+
+    -- --------------------
+    -- STYLES
+    -- --------------------
+
     -- copy static files
     match "css/*.css" $ do
         route   idRoute
         compile compressCssCompiler
 
-    -- styles
-    privateSassDependency <- makePatternDependency $
-                            "css/_settings.scss" .||.
-                            "css/syntac.scss"    .||.
-                            "css/graphics.scss"
-    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss" .||. "css/graphics.scss"
-    rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
-        route $ setExtension "css"
-        compile sassCompiler
-
     let logoStyles = M.fromList [ ("brand",    "css/zeitlens-logo-brand.scss")
                                 , ("default",  "css/zeitlens-logo-default.scss")
                                 , ("inverted", "css/zeitlens-logo-inverted.scss")
                                 ]
+    privateSassDependency <- makePatternDependency . fromList $
+                             [ "css/_settings.scss"
+                             , "css/syntax.scss"
+                             ] ++ M.elems logoStyles
+    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
+    rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
+        route $ setExtension "css"
+        compile sassCompiler
+
+
+    -- --------------------
+    -- LOGOS
+    -- --------------------
+
     match (fromList $ M.elems logoStyles) $ do
-      route $ setExtension "css"
-      compile sassCompiler
+      compile $ sassCompiler >>= saveSnapshot "logo-css"
 
-    create ["img/testing.svg"] $ do
-      route idRoute
-      compile $
-        makeItem "<?xml version=\"1.0\" encoding=\"utf-8\"?>$body$"
-            >>= applyAsTemplate defaultContext
-            >>= loadAndApplyTemplate "templates/img/zeitlens-logo-template.svg" defaultContext
+    match "img/zeitlens-logo.svg" $ do
+      compile $ getResourceBody >>= saveSnapshot "logo-svg"
 
-    match ("favicon.ico" .||. "robots.txt") $ do
-      route idRoute
-      compile copyFileCompiler
+    createLogoWithScss "img/zeitlens-logo-default.svg"
+                       "css/zeitlens-logo-default.scss"
 
-    match ("decks/**" .||. "fonts/**") $ do
-      route idRoute
-      compile copyFileCompiler
+    createLogoWithScss "img/zeitlens-logo-inverted.svg"
+                       "css/zeitlens-logo-inverted.scss"
 
-    match "img/*" $ do
-        route   idRoute
-        compile copyFileCompiler
+    createLogoWithScssAndScript
+                      "img/zeitlens-logo-animated.svg"
+                      "css/zeitlens-logo-default.scss"
+                      "scripts/components/animate-logo.js"
 
-    match "scripts/*" $ do
-        route   idRoute
-        compile copyFileCompiler
 
-    -- base and post contexts
-    let baseCtx   = defaultContext
-    let postCtx    = mconcat
-                     [ dateField "date" "%B %e, %Y"
-                     , dateField "datetime" "%Y-%m-%d"
-                     , defaultContext
-                     ]
     -- applying the base template
     let applyBase item = loadAndApplyTemplate "templates/base.html" baseCtx item
                          >>= withItemBody (return . markAbbreviations)
@@ -114,15 +126,6 @@ main =
                 >>= loadAndApplyTemplate "templates/archive.html" postListCtx
                 >>= loadAndApplyTemplate "templates/base.html"  basePostMetaCtx
                 >>= relativizeUrls
-
-    -- create ["img/zeitlens-logo-dark-background.svg"] $ do
-    --     route idRoute
-    --     compile $ do
-    --       let logoCtx = mconcat
-    --               [ field "logo" (\_ -> logo baseCtx)
-    --               , baseCtx ]
-    --       makeItem ""
-    --           >>= loadAndApplyTemplate 
 
     -- home page
     match "index.html" $ do
@@ -163,7 +166,49 @@ feedConfiguration =
     , feedRoot = "http://zeitlens.com"
   }
 
-sassCompiler =
-    getResourceString
-        >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
-        >>= return . fmap compressCss
+sassCompiler = getResourceString
+               >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
+               >>= return . fmap compressCss
+
+createLogoWithScss imgRoute scssPattern =
+    create [imgRoute] $ do
+      route idRoute
+      compile $ do
+        css <- fmap itemBody $ loadSnapshot scssPattern "logo-css"
+        img <- fmap itemBody $ loadSnapshot "img/zeitlens-logo.svg" "logo-svg"
+                      >>= applyAsTemplate (imgCtx (styleTags css) "")
+        makeItem img
+
+createLogoWithScssAndScript imgRoute scssPattern jsPattern =
+    create [imgRoute] $ do
+      route idRoute
+      compile $ do
+        css <- fmap itemBody $ loadSnapshot scssPattern "logo-css"
+        js  <- fmap itemBody $ loadSnapshot jsPattern "script-component"
+        let ctx = imgCtx (styleTags css) (scriptTags js)
+        img <- fmap itemBody $ loadSnapshot "img/zeitlens-logo.svg" "logo-svg"
+                      >>= applyAsTemplate ctx
+        makeItem img
+
+-- Contexts
+imgCtx defs script =
+    field "logo" $ \item -> do
+      let ctx = mconcat
+                [ field "logo-defs" $ \_ -> return defs
+                , field "logo-script" $ \_ -> return script
+                , defaultContext ]
+      logo <- loadBody logoTemplateIdentifier
+      fmap itemBody $ applyTemplate logo ctx item
+
+baseCtx   = (imgCtx "" "") <> defaultContext
+
+postCtx   = mconcat
+            [ dateField "date" "%B %e, %Y"
+            , dateField "datetime" "%Y-%m-%d"
+            , baseCtx
+            ]
+
+styleTags content = "<style type=\"text/css\">" ++ content ++ "</style>"
+
+scriptTags script =
+    "<script type=\"text/javascript\">//<![CDATA[\n" ++ script ++ "\n//]]></script>"

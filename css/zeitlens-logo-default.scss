@@ -1,0 +1,28 @@
+/* -*- css -*- */
+@import "css/_settings.scss";
+
+/* -------------------- *
+ * Navbar/Footer Layout
+ * -------------------- */
+.logo-background {
+  opacity: 0;
+}
+
+.logo-lens {
+  stroke: $base-color;
+}
+
+.logo-handle,
+.logo-hour-dial,
+.logo-minute-dial,
+.logo-second-dial,
+.logo-centerpiece {
+  fill: $base-color;
+  stroke: none;
+}
+
+/*
+ * Local Variables:
+ * css-indent-offset: 2
+ * end:
+ */

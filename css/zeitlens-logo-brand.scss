@@ -1,0 +1,27 @@
+/* -*- css -*- */
+@import "css/_settings.scss";
+
+/* -------------------- *
+ * Default Layout
+ * -------------------- */
+.logo-background {
+  opacity: 0;
+}
+
+.logo-lens {
+  stroke: $navbar-brand-color;
+}
+
+.logo-handle,
+.logo-hour-dial,
+.logo-minute-dial,
+.logo-second-dial,
+.logo-centerpiece {
+  fill: $navbar-brand-color;
+  stroke: none;
+}
+
+/* Local Variables:
+ * css-indent-offset: 2
+ * end:
+ */

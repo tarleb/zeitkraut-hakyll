@@ -1,10 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Hakyll
-import Hakyll.Web.Tags
-import Control.Applicative
-import Hakyll.Core.Identifier
-import Data.Maybe (fromMaybe)
-import Data.Monoid
+import           Hakyll
+import           Hakyll.Web.Tags
+import           Control.Applicative
+import           Hakyll.Core.Identifier
+import qualified Data.Map as M
+import           Data.Maybe (fromMaybe)
+import           Data.Monoid
 
 import Abbreviations
 
@@ -20,7 +21,7 @@ main =
   hakyllWith config $ do
 
     -- compile templates
-    match "templates/*" $ compile templateCompiler
+    match "templates/**" $ compile templateCompiler
 
     -- copy static files
     match "css/*.css" $ do
@@ -32,14 +33,25 @@ main =
                             "css/_settings.scss" .||.
                             "css/syntac.scss"    .||.
                             "css/graphics.scss"
-    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
+    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss" .||. "css/graphics.scss"
     rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
-        let sassCompiler =
-              getResourceString
-              >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
-              >>= return . fmap compressCss
         route $ setExtension "css"
         compile sassCompiler
+
+    let logoStyles = M.fromList [ ("brand",    "css/zeitlens-logo-brand.scss")
+                                , ("default",  "css/zeitlens-logo-default.scss")
+                                , ("inverted", "css/zeitlens-logo-inverted.scss")
+                                ]
+    match (fromList $ M.elems logoStyles) $ do
+      route $ setExtension "css"
+      compile sassCompiler
+
+    create ["img/testing.svg"] $ do
+      route idRoute
+      compile $
+        makeItem "<?xml version=\"1.0\" encoding=\"utf-8\"?>$body$"
+            >>= applyAsTemplate defaultContext
+            >>= loadAndApplyTemplate "templates/img/zeitlens-logo-template.svg" defaultContext
 
     match ("favicon.ico" .||. "robots.txt") $ do
       route idRoute
@@ -103,6 +115,14 @@ main =
                 >>= loadAndApplyTemplate "templates/base.html"  basePostMetaCtx
                 >>= relativizeUrls
 
+    -- create ["img/zeitlens-logo-dark-background.svg"] $ do
+    --     route idRoute
+    --     compile $ do
+    --       let logoCtx = mconcat
+    --               [ field "logo" (\_ -> logo baseCtx)
+    --               , baseCtx ]
+    --       makeItem ""
+    --           >>= loadAndApplyTemplate 
 
     -- home page
     match "index.html" $ do
@@ -142,3 +162,8 @@ feedConfiguration =
     , feedAuthorEmail = "albert+feed@zeitlens.com"
     , feedRoot = "http://zeitlens.com"
   }
+
+sassCompiler =
+    getResourceString
+        >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
+        >>= return . fmap compressCss

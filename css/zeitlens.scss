@@ -126,13 +126,14 @@ pre {
  * Icons and Logos
  * -------------------- */
 
-.logo {
+.inline-logo {
   display: inline-block;
   height: 0.8em;
   position: relative;
   top: 0.0em;
   width: 0.8em;
 }
+
 
 /* -------------------- *
  * Navigation Bar
@@ -250,9 +251,26 @@ footer {
   }
 }
 
-/* Graphics */
-@import "css/graphics.scss";
+/* Syntax Highlighting */
 @import "css/syntax.scss";
+
+/* -------------------- *
+ * Graphics
+ * -------------------- */
+
+/* Logo style definitions in imported files are minimal as this makes it
+ * easier to re-use files for SVG image files. */
+
+@import "css/zeitlens-logo-default.scss";
+
+.navbar-brand,
+footer {
+  @import "css/zeitlens-logo-brand.scss";
+}
+
+.logo-inverted {
+  @import "css/zeitlens-logo-inverted.scss";
+}
 
 /**
  * Local Variables:

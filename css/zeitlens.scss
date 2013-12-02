@@ -210,8 +210,25 @@ pre {
 }
 
 /* -------------------- *
- * Footer and License
+ * Footer and Footnotes
  * -------------------- */
+
+.footnotes {
+  color: lighten($default-text-color, $footnotes-lighten);
+  margin-top: 3em;
+
+  a {
+    color: lighten($link-color, $footnotes-lighten);
+  }
+
+  &:hover {
+    color: inherit;
+
+    a {
+      color: $link-color;
+    }
+  }
+}
 
 footer {
   background-color: $footer-bg-color;

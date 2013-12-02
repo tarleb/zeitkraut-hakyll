@@ -9,36 +9,30 @@ $base-hue:              193;
 $base-saturation:       50;
 $base-lightness:        35;
 
-$complement-hue:        30;
-$triad-1-hue:           $complement-hue + 20;
-$triad-2-hue:           $complement-hue - 20;
-$analogic-1-hue:        $base-hue + 14;
-$analogic-2-hue:        $base-hue - 14;
+$triad-hue-adjust:      160;
+$analogic-hue-adjust:   14;
 
 /* Base Color */
 $base-color:            hsl($base-hue, $base-saturation, $base-lightness);
-$base-color-dark:       saturate( darken($base-color, 20%), 10%);
-$base-color-darker:     darken($base-color, 10%);
+$base-color-dark:       saturate( darken($base-color, 15%), 7%);
+$base-color-darkened:   darken($base-color, 7%);
 $bsae-color-light:      desaturate(lighten($base-color, 40%), 10%);
 $base-color-lightened:  desaturate(lighten($base-color, 25%),  3%);
 
 /* Triad Colors */
-$triad-color-1:         hsl($triad-1-hue, $base-saturation, $base-lightness);
-$triad-color-2:         adjust-hue($base-color, $triad-2-hue);
-
-$triad-color-2-dark:    saturate(darken($triad-color-2, 20%), 10%);
+$triad-color-1:         adjust-hue($base-color, -$triad-hue-adjust);
+$triad-color-2:         adjust-hue($base-color,  $triad-hue-adjust);
 
 /* Complement Color */
-$complement-color:      hsl($complement-hue, $base-saturation, $base-lightness);
-$complement-color-light: desaturate(lighten($complement-color, 40%), 10%);
+$complement-color:      adjust-hue($base-color, 180deg);
 
 /* Analogic Colors */
-$analogic-color-1:      hsl($analogic-1-hue, $base-saturation, $base-lightness);
-$analogic-color-2:      hsl($analogic-2-hue, $base-saturation, $base-lightness);
+$analogic-color-1:      adjust-hue($base-color,  $analogic-hue-adjust);
+$analogic-color-2:      adjust-hue($base-color, -$analogic-hue-adjust);
 
 /* Black and White */
 $black:                 desaturate(darken($base-color, 12%), 40%);
-$white:                 hsl($complement-hue, 2, 93.333333333);
+$white:                 adjust-hue(hsl($base-hue, 2, 93.333333333), 180);
 $dark-white:            darken($white,  8%);
 $bright-white:          lighten($white, 6.66666666667%);
 
@@ -65,11 +59,11 @@ $default-bg-color:      $bright-white;
 /* Links */
 $link-color:            $base-color;
 $link-bg-color:         $very-light-gray;
-$link-hover-color:      darken(saturate($triad-color-1, 30%), 5%);
+$link-hover-color:      $triad-color-1;
 $link-hover-bg-color:   $very-light-gray;
 
 /* Code */
-$code-color:            $triad-color-2-dark;
+$code-color:            $triad-color-2;
 $code-bg-color:         $very-light-gray;
 $pre-color:             $black;
 $pre-bg-color:          $very-light-gray;
@@ -81,7 +75,8 @@ $navbar-bg-color:       $base-color-dark;
 $navbar-border-color:   $light-gray;
 $navbar-brand-color:    $bright-white;
 $navbar-height:         50px;
-$navbar-link-hover-color: $base-color-darker;
+$navbar-link-hover-color: $bright-white;
+$navbar-link-hover-bg-color: $base-color;
 
 /* Footer */
 $footer-border-color:   $dark-gray;

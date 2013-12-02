@@ -34,8 +34,8 @@ body {
 
 @mixin headerCode {
   code {
-    color: $triad-color-2;
-    background-color: $default-bg-color;
+    color: $code-color;
+    background-color: $code-bg-color;
   }
 }
 
@@ -44,7 +44,7 @@ h1 {
   @include headerCode;
 }
 h2, h3, h4, h5, h6 {
-  color: $base-color-darker;
+  color: $base-color-darkened;
   @include headerCode;
 }
 
@@ -66,26 +66,25 @@ a {
     }
   }
 
-  &[href^="http://"]::after,
-  &[href^="https://"]::after {
-    content: "";
+  &::after {
     font-family: FontAwesome;
     font-size: 75%;
     margin-left: 0.3em;
     vertical-align: baseline;
+  }
+
+  &[href^="http://"]::after,
+  &[href^="https://"]::after {
+    content: "";
   }
 
   &[href^="mailto:"]::after {
     content: "";
-    font-family: FontAwesome;
-    font-size: 75%;
-    margin-left: 0.3em;
-    vertical-align: baseline;
   }
 }
 
 date {
-  color: $base-color-darker;
+  color: $base-color-darkened;
 }
 
 abbr[title],
@@ -153,11 +152,11 @@ pre {
     color: $navbar-color;
     background-color: inherit;
     &:hover {
-      color: $navbar-brand-color;
-      background-color: $navbar-link-hover-color;
+      color: $navbar-link-hover-color;
+      background-color: $navbar-link-hover-bg-color;
 
       .navbar-brand {
-        background-color: $navbar-link-hover-color;
+        background-color: $navbar-link-hover-bg-color;
         display: block;
         margin-left: -$paddingLeftRight;
         margin-right: -$paddingLeftRight;

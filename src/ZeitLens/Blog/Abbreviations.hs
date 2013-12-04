@@ -1,4 +1,4 @@
-module Abbreviations
+module ZeitLens.Blog.Abbreviations
        (markAbbreviations)
 where
 

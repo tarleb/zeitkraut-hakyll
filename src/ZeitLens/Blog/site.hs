@@ -7,10 +7,9 @@ import           Data.Maybe (fromMaybe)
 import           Data.Monoid
 
 import           Hakyll
-import           Hakyll.Web.Tags
 import           Hakyll.Core.Identifier
 
-import           Abbreviations
+import           ZeitLens.Blog.Abbreviations
 
 
 data LogoStyle = DefaultLogoStyle

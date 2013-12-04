@@ -59,18 +59,19 @@ main =
         route   idRoute
         compile compressCssCompiler
 
-    let logoStyles = map logoStyleFile
-                      [ DefaultLogoStyle, InvertedLogoStyle, BrandLogoStyle ]
-    privateSassDependency <- makePatternDependency . fromList $
+    let logoStyles = fromList . map logoStyleFile $
+                     [ DefaultLogoStyle, InvertedLogoStyle, BrandLogoStyle ]
+    privateSassDependency <- mapM makePatternDependency
                              [ "css/_settings.scss"
                              , "css/syntax.scss"
-                             ] ++ logoStyles
+                             , logoStyles
+                             ]
     let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
-    rulesExtraDependencies [privateSassDependency] $ match publicSassFiles $ do
+    rulesExtraDependencies privateSassDependency $ match publicSassFiles $ do
         route $ setExtension "css"
         compile sassCompiler
 
-    match (fromList logoStyles) $ do
+    match logoStyles $ do
       compile $ sassCompiler >>= saveSnapshot "logo-css"
 
 

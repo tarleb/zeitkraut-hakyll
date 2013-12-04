@@ -3,9 +3,10 @@ module ZeitLens.Blog.Abbreviations
 where
 
 import           Prelude
-import           Data.Map (Map)
+import           Data.Monoid
 import qualified Data.Map as M
-import           Hakyll
+
+import           Hakyll (replaceAll)
 
 markAbbreviations :: String -> String
 markAbbreviations text =
@@ -13,11 +14,18 @@ markAbbreviations text =
     where replacement matched = case M.lookup (tail matched) abbrMap of
             Nothing -> matched
             Just (classes, meaning) ->
-                "<abbr class=\"" ++ (maybe "" id classes) ++ "\""
-                                     ++ " title=\"" ++ meaning ++ "\">"
-                                     ++ (tail matched) ++ "</abbr>"
+                mconcat [ "<abbr "
+                        , classAttr classes
+                        , " "
+                        , titleAttr meaning
+                        , ">"
+                        , (tail matched)
+                        , "</abbr>"
+                        ]
+          titleAttr meaning = "title=\"" ++ meaning ++ "\""
+          classAttr classes = maybe "" (\c -> "class=\"" ++ c ++ "\"") classes
 
-abbrMap :: Map String (Maybe String, String)
+abbrMap :: M.Map String (Maybe String, String)
 abbrMap = M.fromList
           -- Abbr     extra classes  meaning
           [ ("CCC",   (Just "initialism",  "Chaos Computer Club"))

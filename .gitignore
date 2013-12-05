@@ -1,5 +1,4 @@
-_cache
-_site
 dist
-site
+site/_site
+site/_cache
 .sass-cache

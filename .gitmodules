@@ -1,0 +1,3 @@
+[submodule "site/posts"]
+	path = site/posts
+	url = moltke:repositories/zeitlens-posts.git

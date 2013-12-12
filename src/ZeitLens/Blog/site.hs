@@ -56,20 +56,23 @@ main =
 
     -- Copy static CSS files
     match "css/*.css" $ do
-        route   idRoute
-        compile compressCssCompiler
+      route   idRoute
+      compile compressCssCompiler
 
     let logoStyles = fromList . map logoStyleFile $
                      [ DefaultLogoStyle, InvertedLogoStyle, BrandLogoStyle ]
-    privateSassDependency <- mapM makePatternDependency
-                             [ "css/_settings.scss"
-                             , "css/syntax.scss"
-                             , logoStyles
-                             ]
-    let publicSassFiles = "css/zeitlens.scss" .||. "css/zeitlens-deck.scss"
-    rulesExtraDependencies privateSassDependency $ match publicSassFiles $ do
-        route $ setExtension "css"
-        compile sassCompiler
+    sassDependencies <- mapM makePatternDependency
+                        [ "css/_settings.scss"
+                        , "css/syntax.scss"
+                        , logoStyles
+                        ]
+    rulesExtraDependencies sassDependencies $ match "css/zeitlens.scss" $ do
+      route $ setExtension "css"
+      compile sassCompiler
+
+    match "css/deck.js/zeitlens-deck.scss" $ do
+      route $ constRoute "decks/zeitlens-deck.css"
+      compile sassCompiler
 
     match logoStyles $ do
       compile $ sassCompiler >>= saveSnapshot "logo-css"
@@ -110,8 +113,38 @@ main =
         compile $ do
             getResourceBody
                   >>= applyAsTemplate postCtx
+                  >>= loadAndApplyTemplate "templates/page.html" postCtx
                   >>= applyBase
                   >>= relativizeUrls
+
+
+    -- --------------------
+    -- TAGS
+    -- --------------------
+    tags <- buildTags "posts/*" $ fromCapture "*.html"
+
+    -- Post tags
+    tagsRules tags $ \tag pattern -> do
+        let title = "Posts tagged '" ++ tag ++ "'"
+        let tagsCtx = constField "title" title <> defaultContext
+        route $ customRoute (("tags/" <>) . toFilePath)
+        compile $ do
+          postList postCtx recentFirst pattern
+                  >>= makeItem
+                  >>= loadAndApplyTemplate "templates/post-list.html" tagsCtx
+                  >>= loadAndApplyTemplate "templates/page.html" tagsCtx
+                  >>= applyBase
+                  >>= relativizeUrls
+
+    create ["tags.html"] $ do
+      route idRoute
+      compile $ do
+        let cloudCtx = constField "title" "Tags" <> defaultContext
+        renderTagCloud 100 300 tags
+                >>= makeItem
+                >>= loadAndApplyTemplate "templates/page.html" cloudCtx
+                >>= applyBase
+                >>= relativizeUrls
 
     -- --------------------
     -- POSTS AND POST LISTS
@@ -119,39 +152,40 @@ main =
 
     -- home page
     match "index.html" $ do
-        route idRoute
-        compile $ do
-            let indexCtx = field "posts" $ \_ ->
-                  postList postCtx $ fmap (take 3) . recentFirst
-            getResourceBody
-                >>= applyAsTemplate indexCtx
+      route idRoute
+      compile $ do
+        let recentPosts = fmap (take 3) . recentFirst
+        posts <- postList postCtx recentPosts "posts/*"
+        let idxCtx = constField "posts" posts <> baseCtx
+        getResourceBody
+                >>= applyAsTemplate idxCtx
+                >>= loadAndApplyTemplate "templates/page.html" idxCtx
                 >>= applyBase
                 >>= relativizeUrls
 
     -- render each of the individual posts
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html" postCtx
+        compile $
+          pandocCompiler
+            >>= loadAndApplyTemplate "templates/post.html" (taggedPostCtx tags)
             >>= saveSnapshot "content"
             >>= applyBase
             >>= relativizeUrls
 
     -- create a full list of all posts
     create ["archive.html"] $ do
-        route idRoute
-        compile $ do
-            let postListCtx = mconcat
-                  [ field "posts" (\_ -> postList postCtx recentFirst)
-                  , baseCtx ]
-
-            let basePostMetaCtx = mconcat
-                  [ constField "metadescription" "ZeitLens post archive"
-                  , baseCtx ]
-
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" postListCtx
-                >>= loadAndApplyTemplate "templates/base.html"  basePostMetaCtx
+      let archiveCtx = mconcat [ constField "title" "Archive"
+                               , constField "description" "ZeitLens post archive"
+                               , baseCtx
+                               ]
+      route idRoute
+      compile $ do
+        postList postCtx recentFirst "posts/*"
+                >>= makeItem
+                >>= loadAndApplyTemplate "templates/post-list.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/page.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/base.html" archiveCtx
                 >>= relativizeUrls
 
     -- Render RSS feed
@@ -166,16 +200,34 @@ main =
 
 postList :: Context String
             -> ([Item String] -> Compiler [Item String])
+            -> Pattern
             -> Compiler String
-postList ctx sortFilter = do
-    posts   <- sortFilter =<< loadAll "posts/*"
+postList ctx sortFilter posts = do
+    posts   <- sortFilter =<< loadAll posts
     itemTpl <- loadBody "templates/post-item.html"
     applyTemplateList itemTpl ctx posts
+
+
+-- --------------------
+-- Compilers
+-- --------------------
 
 sassCompiler :: Compiler (Item String)
 sassCompiler = getResourceString
                >>= withItemBody (unixFilter "sass" ["-s", "--scss"])
                >>= return . fmap compressCss
+
+-- Run input bytestring through imagemagick
+imagemagickFilter :: String
+                  -> String
+                  -> LazyBS.ByteString
+                  -> Compiler LazyBS.ByteString
+imagemagickFilter format dimension =
+    unixFilterLBS "convert" ["-" , "-resize" , dimension , format <> ":-"]
+
+-- --------------------
+-- Rules
+-- --------------------
 
 createLogoWithScript :: Identifier -> LogoStyle -> Identifier -> Rules ()
 createLogoWithScript imgRoute logoStyle jsPattern =
@@ -225,15 +277,11 @@ logoCompiler logoStyle jsPattern = do
   fmap itemBody $ makeItem ""
            >>= loadAndApplyTemplate "templates/img/zeitlens-logo.svg" ctx
 
--- Run input bytestring through imagemagick
-imagemagickFilter :: String
-                  -> String
-                  -> LazyBS.ByteString
-                  -> Compiler LazyBS.ByteString
-imagemagickFilter format dimension =
-    unixFilterLBS "convert" ["-" , "-resize" , dimension , format <> ":-"]
 
+-- --------------------
 -- Contexts
+-- --------------------
+
 imgCtx :: String -> String -> Context String
 imgCtx defs script =
     field "logo" $ \item -> do
@@ -253,6 +301,13 @@ postCtx   = mconcat
             , dateField "datetime" "%Y-%m-%d"
             , baseCtx
             ]
+
+taggedPostCtx :: Tags -> Context String
+taggedPostCtx tags = tagsField "tags" tags `mappend` postCtx
+
+-- --------------------
+-- MISC
+-- --------------------
 
 styleTags :: String -> String
 styleTags content = "<style type=\"text/css\">" ++ content ++ "</style>"

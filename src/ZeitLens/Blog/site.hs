@@ -108,14 +108,26 @@ main =
                          >>= withItemBody (return . markAbbreviations)
 
     -- root level static pages
-    match ("about.html" .||. "contact.html") $ do
-        route idRoute
-        compile $ do
-            getResourceBody
-                  >>= applyAsTemplate postCtx
-                  >>= loadAndApplyTemplate "templates/page.html" postCtx
-                  >>= applyBase
-                  >>= relativizeUrls
+    match "contact.html" $ do
+      route idRoute
+      compile $ do
+        getResourceBody
+                >>= applyAsTemplate postCtx
+                >>= saveSnapshot "raw-contact"
+                >>= loadAndApplyTemplate "templates/page.html" postCtx
+                >>= applyBase
+                >>= relativizeUrls
+
+    match "colophon.html" $ do
+      route idRoute
+      compile $ do
+        contactInfo <- loadSnapshotBody "contact.html" "raw-contact"
+        let contactCtx = constField "contact" contactInfo <> postCtx
+        getResourceBody
+                >>= applyAsTemplate (contactCtx <> postCtx)
+                >>= loadAndApplyTemplate "templates/page.html" postCtx
+                >>= applyBase
+                >>= relativizeUrls
 
 
     -- --------------------

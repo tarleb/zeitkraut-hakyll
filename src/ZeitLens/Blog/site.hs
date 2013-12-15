@@ -137,7 +137,7 @@ main =
 
     -- Post tags
     tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged '" ++ tag ++ "'"
+        let title = "Posts tagged ‘" ++ tag ++ "’"
         let tagsCtx = constField "title" title <> defaultContext
         route $ customRoute (("tags/" <>) . toFilePath)
         compile $ do

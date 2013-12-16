@@ -116,7 +116,6 @@ main =
                 >>= saveSnapshot "raw-contact"
                 >>= loadAndApplyTemplate "templates/page.html" postCtx
                 >>= applyBase
-                >>= relativizeUrls
 
     match "colophon.html" $ do
       route idRoute
@@ -127,7 +126,6 @@ main =
                 >>= applyAsTemplate (contactCtx <> postCtx)
                 >>= loadAndApplyTemplate "templates/page.html" postCtx
                 >>= applyBase
-                >>= relativizeUrls
 
 
     -- --------------------
@@ -146,7 +144,6 @@ main =
                   >>= loadAndApplyTemplate "templates/post-list.html" tagsCtx
                   >>= loadAndApplyTemplate "templates/page.html" tagsCtx
                   >>= applyBase
-                  >>= relativizeUrls
 
     create ["tags.html"] $ do
       route idRoute
@@ -156,7 +153,6 @@ main =
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/page.html" cloudCtx
                 >>= applyBase
-                >>= relativizeUrls
 
     -- --------------------
     -- POSTS AND POST LISTS
@@ -173,7 +169,6 @@ main =
                 >>= applyAsTemplate idxCtx
                 >>= loadAndApplyTemplate "templates/page.html" idxCtx
                 >>= applyBase
-                >>= relativizeUrls
 
     -- render each of the individual posts
     match "posts/*" $ do
@@ -183,7 +178,6 @@ main =
             >>= loadAndApplyTemplate "templates/post.html" (taggedPostCtx tags)
             >>= saveSnapshot "content"
             >>= applyBase
-            >>= relativizeUrls
 
     -- create a full list of all posts
     create ["archive.html"] $ do
@@ -198,7 +192,6 @@ main =
                 >>= loadAndApplyTemplate "templates/post-list.html" archiveCtx
                 >>= loadAndApplyTemplate "templates/page.html" archiveCtx
                 >>= loadAndApplyTemplate "templates/base.html" archiveCtx
-                >>= relativizeUrls
 
     -- Render RSS feed
     create ["atom.xml"] $ do

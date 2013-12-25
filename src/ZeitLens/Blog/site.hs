@@ -33,7 +33,6 @@ main =
     -- --------------------
     match (     "robots.txt"
            .||. "decks/**"
-           .||. "fonts/**"
            .||. "img/*.jpg") $ do
       route idRoute
       compile copyFileCompiler
@@ -51,13 +50,31 @@ main =
 
 
     -- --------------------
+    -- BOWER COMPONENTS
+    -- --------------------
+    match "_components/jquery/jquery.min.js" $ do
+      route $ constRoute "scripts/jquery.min.js"
+      compile copyFileCompiler
+
+    match "_components/bootstrap/dist/js/bootstrap.min.js" $ do
+      route $ constRoute "scripts/bootstrap.min.js"
+      compile copyFileCompiler
+
+    match "_components/bootstrap/dist/css/bootstrap.min.css" $ do
+      route $ constRoute "css/bootstrap.min.css"
+      compile copyFileCompiler
+
+    match "_components/font-awesome/css/font-awesome.min.css" $ do
+      route $ constRoute "css/font-awesome.min.css"
+      compile copyFileCompiler
+
+    match "_components/font-awesome/fonts/*" $ do
+      route $ (gsubRoute "_components/font-awesome" (const "fonts/"))
+      compile copyFileCompiler
+
+    -- --------------------
     -- STYLES
     -- --------------------
-
-    -- Copy static CSS files
-    match "css/*.css" $ do
-      route   idRoute
-      compile compressCssCompiler
 
     let logoStyles = fromList . map logoStyleFile $
                      [ DefaultLogoStyle, InvertedLogoStyle, BrandLogoStyle ]

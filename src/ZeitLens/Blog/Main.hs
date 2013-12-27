@@ -52,8 +52,8 @@ main =
     -- --------------------
     -- BOWER COMPONENTS
     -- --------------------
-    match "_components/jquery/jquery.min.js" $ do
-      route $ constRoute "scripts/jquery.min.js"
+    match "_components/jquery/jquery.min.*" $ do
+      route $ gsubRoute "_components/jquery" (const "scripts")
       compile copyFileCompiler
 
     match "_components/bootstrap/dist/js/bootstrap.min.js" $ do
@@ -69,7 +69,7 @@ main =
       compile copyFileCompiler
 
     match "_components/font-awesome/fonts/*" $ do
-      route $ (gsubRoute "_components/font-awesome" (const "fonts/"))
+      route $ gsubRoute "_components/font-awesome/" (const "")
       compile copyFileCompiler
 
     -- --------------------

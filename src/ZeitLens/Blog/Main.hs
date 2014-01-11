@@ -64,12 +64,12 @@ main =
       route $ constRoute "css/bootstrap.min.css"
       compile copyFileCompiler
 
-    match "_components/font-awesome/css/font-awesome.min.css" $ do
+    match "_components/components-font-awesome/css/font-awesome.min.css" $ do
       route $ constRoute "css/font-awesome.min.css"
       compile copyFileCompiler
 
-    match "_components/font-awesome/fonts/*" $ do
-      route $ gsubRoute "_components/font-awesome/" (const "")
+    match "_components/components-font-awesome/fonts/*" $ do
+      route $ gsubRoute "_components/components-font-awesome/" (const "")
       compile copyFileCompiler
 
     -- --------------------

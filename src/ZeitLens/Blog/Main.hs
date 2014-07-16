@@ -134,11 +134,18 @@ main =
                 >>= loadAndApplyTemplate "templates/page.html" postCtx
                 >>= applyBase
 
+    match "privacy-policy.md" $ do
+      route $ setExtension "html"
+      compile $ do
+        pandocCompiler
+                >>= loadAndApplyTemplate "templates/page.html" postCtx
+                >>= applyBase
+
     match "colophon.html" $ do
       route idRoute
       compile $ do
         contactInfo <- loadSnapshotBody "contact.html" "raw-contact"
-        let contactCtx = constField "contact" contactInfo <> postCtx
+        let contactCtx = constField "contact" contactInfo
         getResourceBody
                 >>= applyAsTemplate (contactCtx <> postCtx)
                 >>= loadAndApplyTemplate "templates/page.html" postCtx

@@ -1,19 +1,19 @@
-name:                zeitlens-blog
-version:             1.1.0.2
-synopsis:            ZeitLens Blog
+name:                zeitkraut-blog
+version:             1.1.0.3
+synopsis:            zeITkraut Blog
 -- description:
-homepage:            http://zeitlens.com/
+homepage:            https://zeitkraut.de/
 license:             AGPL-3
 license-file:        LICENSE
 author:              Albert Krewinkel
-copyright:           © 2013 Albert Krewinkel
-maintainer:          tarleb@moltkeplatz.de
+copyright:           © 2013-2015 Albert Krewinkel
+maintainer:          albert@zeitkraut.de
 build-type:          Simple
 extra-source-files:  README.markdown
 cabal-version:       >=1.10
 
-executable zeitlens
-  main-is:             ZeitLens/Blog/Main.hs
+executable zeitkraut
+  main-is:             ZeitKraut/Blog/Main.hs
   -- other-modules:
   -- other-extensions:
   build-depends:       base             >=4.6  && <4.7,
@@ -24,7 +24,7 @@ executable zeitlens
   default-language:    Haskell2010
 
 library
-  exposed-modules:     ZeitLens.Blog.Abbreviations
+  exposed-modules:     ZeitKraut.Blog.Abbreviations
   build-depends:       base             >=4.6  && <4.7,
                        containers       >=0.5  && <0.6,
                        bytestring       >=0.10 && <1,

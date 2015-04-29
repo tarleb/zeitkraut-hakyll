@@ -9,7 +9,7 @@ import           Data.Monoid
 import           Hakyll
 import           Hakyll.Core.Identifier
 
-import           ZeitLens.Blog.Abbreviations
+import           ZeitKraut.Blog.Abbreviations
 
 
 data LogoStyle = DefaultLogoStyle
@@ -206,7 +206,7 @@ main =
     -- create a full list of all posts
     create ["archive.html"] $ do
       let archiveCtx = mconcat [ constField "title" "Archive"
-                               , constField "description" "ZeitLens post archive"
+                               , constField "description" "ZeitKraut post archive"
                                , baseCtx
                                ]
       route idRoute
@@ -361,9 +361,9 @@ config =
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration {
-      feedTitle = "ZeitLens Blog"
-    , feedDescription = "ZeitLens Blog -- Science, Technologie, Privacy"
+      feedTitle = "ZeitKraut Blog"
+    , feedDescription = "ZeitKraut Blog -- Science, Technologie, Privacy"
     , feedAuthorName = "Albert Krewinkel"
     , feedAuthorEmail = "albert+feed@zeitlens.com"
-    , feedRoot = "http://zeitlens.com"
+    , feedRoot = "https://zeitkraut.de"
   }
